@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Syne:wght@700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light — Resynth_lab SaaS */
+    --c-bg: 247 247 244;
+    --c-surface: 255 255 255;
+    --c-card: 255 255 255;
+    --c-border: 228 228 235;
+    --c-text: 24 24 32;
+    --c-muted: 106 106 122;
+    --c-brand: 18 18 26;
+    --c-brand-hover: 40 40 56;
+    --c-accent: 249 92 143;
+    --c-neon1: 64 138 255;
+    --c-neon2: 255 69 155;
+    --c-neon3: 255 145 64;
+    --c-outline: 24 24 32;
+  }
+
+  .dark {
+    /* Dark — SYNTH ERA techwear */
+    --c-bg: 8 8 11;
+    --c-surface: 13 13 18;
+    --c-card: 19 19 27;
+    --c-border: 38 38 52;
+    --c-text: 242 242 247;
+    --c-muted: 140 140 162;
+    --c-brand: 168 85 247;
+    --c-brand-hover: 147 63 226;
+    --c-accent: 157 78 221;
+    --c-neon1: 120 92 255;
+    --c-neon2: 255 26 120;
+    --c-neon3: 255 148 64;
+    --c-outline: 255 255 255;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-brand text-white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--c-bg));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--c-border));
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--c-brand));
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-surface/70 backdrop-blur-xl border border-line/60;
+  }
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:border-brand/50 hover:shadow-lg hover:shadow-brand/10;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all active:scale-95;
+  }
+  .btn-primary {
+    @apply btn bg-brand text-white hover:bg-brand-hover shadow-lg shadow-brand/25;
+  }
+  .btn-ghost {
+    @apply btn bg-card text-ink hover:bg-line border border-line;
+  }
+  .btn-outline {
+    @apply btn border-2 border-brand text-brand hover:bg-brand hover:text-white;
+  }
+  .input {
+    @apply w-full rounded-xl bg-card border border-line px-4 py-2.5 text-sm text-ink placeholder:text-muted/70 outline-none transition-colors focus:border-brand;
+  }
+  .chip {
+    @apply px-3.5 py-1.5 rounded-xl text-xs font-bold uppercase transition-all;
+  }
+  /* Transparent outline display type (techwear) */
+  .text-stroke {
+    -webkit-text-stroke: 2px rgb(var(--c-outline) / 0.16);
+    color: transparent;
+  }
+  .text-stroke-soft {
+    -webkit-text-stroke: 1px rgb(var(--c-outline) / 0.12);
+    color: transparent;
+  }
+}
+
+@layer utilities {
+  .neon-gradient {
+    background-image: linear-gradient(
+      180deg,
+      rgb(var(--c-neon1)),
+      rgb(var(--c-neon2)) 50%,
+      rgb(var(--c-neon3))
+    );
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}

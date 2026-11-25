@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BEAT ARMORY | Exclusive Beats & Instant Licensing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#070709',
+                            dark: '#0E0E12',
+                            card: '#14141A',
+                            border: '#23232D',
+                            red: '#FF1A40',
+                            redHover: '#E6002A',
+                            purple: '#9D4EDD',
+                            muted: '#8E8E9F'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        handwriting: ['Caveat', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #070709; }
+        ::-webkit-scrollbar-thumb { background: #23232D; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #FF1A40; }
+
+        .glass-panel {
+            background: rgba(20, 20, 26, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(26, 26, 35, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 26, 64, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(255, 26, 64, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .hero-title-stroke {
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.15);
+            color: transparent;
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(255, 26, 64, 0.2); }
+            100% { box-shadow: 0 0 35px rgba(255, 26, 64, 0.6); }
+        }
+
+        .waveform-bar {
+            transition: height 0.15s ease, background-color 0.2s ease;
+        }
+
+        /* 3D Cover Carousel Tilt Effect */
+        .cover-stack {
+            perspective: 1000px;
+        }
+        .cover-card-3d {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+    </style>
+</head>
+<body class="bg-brand-black text-gray-100 font-sans min-h-screen flex flex-col selection:bg-brand-red selection:text-white pb-32">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 w-full glass-panel border-b border-brand-border/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-red to-brand-purple flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+                    <i data-lucide="disc-3" class="w-6 h-6 text-white animate-spin-slow"></i>
+                </div>
+                <div>
+                    <span class="font-display font-extrabold text-2xl tracking-wider text-white">BEAT<span class="text-brand-red">ARMORY</span></span>
+                    <span class="text-[10px] tracking-widest text-brand-muted block font-mono -mt-1">SOUNDS BY PRODUCER</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-gray-300">
+                <a href="#beats" class="hover:text-brand-red transition-colors flex items-center gap-1.5"><i data-lucide="music-2" class="w-4 h-4"></i> Catalog</a>
+                <a href="#licenses" class="hover:text-brand-red transition-colors flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4"></i> Licensing Terms</a>
+                <a href="#about" class="hover:text-brand-red transition-colors flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4"></i> Producer Bio</a>
+            </nav>
+
+            <!-- Actions Right -->
+            <div class="flex items-center gap-3">
+                <button onclick="togglePurchasedModal()" class="relative p-2.5 rounded-xl bg-brand-card hover:bg-brand-border text-gray-300 hover:text-white transition-all border border-brand-border">
+                    <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    <span id="purchased-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 bg-brand-red text-white text-[11px] font-bold rounded-full flex items-center justify-center border-2 border-brand-black">0</span>
+                </button>
+
+                <button onclick="toggleAdminDrawer()" class="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-card hover:bg-brand-border border border-brand-border text-sm font-semibold text-gray-200 transition-all hover:border-brand-red/50">
+                    <i data-lucide="sliders" class="w-4 h-4 text-brand-red"></i>
+                    <span>Producer Portal</span>
+                </button>
+
+                <button onclick="scrollToBeats()" class="px-5 py-2.5 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-sm font-bold shadow-lg shadow-brand-red/25 transition-all hover:scale-105 active:scale-95">
+                    Browse Beats
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[85vh] flex items-center overflow-hidden py-12 px-4 sm:px-6 lg:px-8 border-b border-brand-border/40">
+        <!-- Ambient Radial Background Gradients -->
+        <div class="absolute top-1/4 left-10 w-96 h-96 bg-brand-red/15 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-brand-purple/15 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+            
+            <!-- Left Hero Content -->
+            <div class="lg:col-span-7 space-y-6 text-left">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-red/10 border border-brand-red/30 text-brand-red text-xs font-semibold tracking-wide uppercase">
+                    <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span>
+                    Instant Commercial License Delivery
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight uppercase leading-[0.95]">
+                    PREMIUM BEATS. <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red via-red-400 to-brand-purple">INSTANT LICENSING.</span>
+                </h1>
+
+                <p class="font-handwriting text-2xl sm:text-3xl text-brand-red/90 -rotate-1 pl-1">
+                    Buy Beats. Unlock Master Rights Instantly.
+                </p>
+
+                <p class="text-gray-400 text-base sm:text-lg max-w-xl font-normal leading-relaxed">
+                    Direct-from-producer studio tracks with industry-grade mix & master. Choose your license tier and receive automated, legally binding PDF contracts with instant STEM downloads.
+                </p>
+
+                <!-- Value Props Badges -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2 max-w-lg">
+                    <div class="glass-panel p-3 rounded-xl border border-brand-border">
+                        <i data-lucide="zap" class="w-5 h-5 text-brand-red mb-1"></i>
+                        <h4 class="text-xs font-bold uppercase text-gray-200">Instant Download</h4>
+                        <p class="text-[11px] text-gray-400">WAV + Stems on payment</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-xl border border-brand-border">
+                        <i data-lucide="file-text" class="w-5 h-5 text-brand-purple mb-1"></i>
+                        <h4 class="text-xs font-bold uppercase text-gray-200">Auto License</h4>
+                        <p class="text-[11px] text-gray-400">Legally signed agreements</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-xl border border-brand-border col-span-2 sm:col-span-1">
+                        <i data-lucide="sliders-horizontal" class="w-5 h-5 text-brand-red mb-1"></i>
+                        <h4 class="text-xs font-bold uppercase text-gray-200">Mix Ready</h4>
+                        <p class="text-[11px] text-gray-400">Mastered to -14 LUFS</p>
+                    </div>
+                </div>
+
+                <!-- Hero CTAs -->
+                <div class="flex flex-wrap items-center gap-4 pt-4">
+                    <button onclick="scrollToBeats()" class="px-8 py-4 rounded-xl bg-brand-red hover:bg-brand-redHover text-white font-bold text-base shadow-xl shadow-brand-red/30 transition-all hover:scale-105 active:scale-95 flex items-center gap-2">
+                        <i data-lucide="play" class="w-5 h-5 fill-current"></i> Listen to Catalog
+                    </button>
+                    <button onclick="openLicenseModal(1)" class="px-7 py-4 rounded-xl glass-panel hover:bg-brand-border text-gray-200 font-semibold text-base transition-all border border-brand-border flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-brand-red"></i> View License Pricing
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Hero Graphic / Studio Gear & Card Stack Interactive Preview -->
+            <div class="lg:col-span-5 relative flex flex-col items-center justify-center">
+                <!-- Outer Glow Halo -->
+                <div class="absolute w-80 h-80 bg-brand-red/20 rounded-full blur-3xl -z-10"></div>
+
+                <!-- Center 3D Studio Speakers Visual Vector Asset -->
+                <div class="relative w-full max-w-md aspect-square flex items-center justify-center">
+                    
+                    <!-- SVG Studio Speaker Graphic -->
+                    <svg class="w-full h-full drop-shadow-[0_20px_50px_rgba(255,26,64,0.25)]" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Studio Monitor Left -->
+                        <g class="transform -translate-x-6 hover:translate-y-[-5px] transition-transform duration-500">
+                            <rect x="60" y="100" width="160" height="280" rx="16" fill="#121218" stroke="#2D2D3A" stroke-width="4"/>
+                            <rect x="75" y="115" width="130" height="250" rx="10" fill="#09090D"/>
+                            <!-- Tweeter -->
+                            <circle cx="140" cy="165" r="28" fill="#181822" stroke="#FF1A40" stroke-width="2"/>
+                            <circle cx="140" cy="165" r="12" fill="#FF1A40"/>
+                            <!-- Woofer -->
+                            <circle cx="140" cy="285" r="55" fill="#181822" stroke="#2D2D3A" stroke-width="3"/>
+                            <circle cx="140" cy="285" r="38" fill="#0E0E14" stroke="#FF1A40" stroke-width="1.5" class="animate-pulse"/>
+                            <circle cx="140" cy="285" r="16" fill="#1F1F2C"/>
+                        </g>
+
+                        <!-- Studio Monitor Right -->
+                        <g class="transform translate-x-6 hover:translate-y-[-5px] transition-transform duration-500">
+                            <rect x="280" y="100" width="160" height="280" rx="16" fill="#121218" stroke="#2D2D3A" stroke-width="4"/>
+                            <rect x="295" y="115" width="130" height="250" rx="10" fill="#09090D"/>
+                            <!-- Tweeter -->
+                            <circle cx="360" cy="165" r="28" fill="#181822" stroke="#9D4EDD" stroke-width="2"/>
+                            <circle cx="360" cy="165" r="12" fill="#9D4EDD"/>
+                            <!-- Woofer -->
+                            <circle cx="360" cy="285" r="55" fill="#181822" stroke="#2D2D3A" stroke-width="3"/>
+                            <circle cx="360" cy="285" r="38" fill="#0E0E14" stroke="#9D4EDD" stroke-width="1.5" class="animate-pulse"/>
+                            <circle cx="360" cy="285" r="16" fill="#1F1F2C"/>
+                        </g>
+
+                        <!-- Audio Interface in Center -->
+                        <rect x="170" y="320" width="160" height="80" rx="10" fill="#1B1B24" stroke="#FF1A40" stroke-width="2"/>
+                        <circle cx="210" cy="360" r="14" fill="#292938" stroke="#8E8E9F"/>
+                        <circle cx="250" cy="360" r="18" fill="#FF1A40"/>
+                        <circle cx="290" cy="360" r="10" fill="#292938"/>
+                        <!-- LED Meters -->
+                        <rect x="200" y="335" width="100" height="4" rx="2" fill="#FF1A40"/>
+                    </svg>
+
+                    <!-- Interactive Stacked Album Art Carousel Overlay -->
+                    <div id="hero-carousel-card" class="absolute -bottom-6 sm:bottom-0 right-0 sm:-right-4 w-64 sm:w-72 glass-panel p-4 rounded-2xl border border-brand-red/40 shadow-2xl pulse-glow cursor-pointer transition-transform hover:scale-105" onclick="playHeroFeaturedBeat()">
+                        <div class="flex items-center gap-3">
+                            <div class="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 group">
+                                <img id="hero-card-img" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&auto=format&fit=crop&q=80" alt="Cover" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i data-lucide="play" class="w-6 h-6 text-white fill-current"></i>
+                                </div>
+                            </div>
+                            <div class="overflow-hidden">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-brand-red block">FEATURED TRACK</span>
+                                <h3 id="hero-card-title" class="font-bold text-white text-base truncate">MAGNOLIA VIBES</h3>
+                                <p id="hero-card-meta" class="text-xs text-gray-400">140 BPM • C Minor</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-xs font-extrabold text-brand-red">$29.99</span>
+                                    <span class="text-[10px] text-gray-400">Basic Lease</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Catalog & Filter Section -->
+    <section id="beats" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+                <h2 class="text-3xl sm:text-4xl font-display font-extrabold uppercase tracking-tight text-white">
+                    EXPLORE <span class="text-brand-red">BEAT VAULT</span>
+                </h2>
+                <p class="text-gray-400 text-sm mt-1">Filter by genre, tempo, key or mood. Tap preview to stream in high fidelity.</p>
+            </div>
+            <div class="text-xs text-brand-muted font-mono">
+                SHOWING <span id="beat-count" class="text-brand-red font-bold">0</span> PRODUCER TRACKS
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="glass-panel p-4 rounded-2xl mb-8 flex flex-wrap gap-4 items-center justify-between border border-brand-border">
+            
+            <!-- Genre Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 no-scrollbar max-w-full" id="genre-filters">
+                <button onclick="filterGenre('ALL')" class="genre-btn active px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-brand-red text-white">All Beats</button>
+                <button onclick="filterGenre('TRAP')" class="genre-btn px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-brand-card hover:bg-brand-border text-gray-300">Trap</button>
+                <button onclick="filterGenre('DRILL')" class="genre-btn px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-brand-card hover:bg-brand-border text-gray-300">Drill</button>
+                <button onclick="filterGenre('BOOM BAP')" class="genre-btn px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-brand-card hover:bg-brand-border text-gray-300">Boom Bap</button>
+                <button onclick="filterGenre('AFROBEAT')" class="genre-btn px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-brand-card hover:bg-brand-border text-gray-300">Afrobeat</button>
+                <button onclick="filterGenre('CYBERPUNK')" class="genre-btn px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-brand-card hover:bg-brand-border text-gray-300">Cyberpunk</button>
+            </div>
+
+            <!-- Search & Dropdowns -->
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+                <div class="relative flex-1 sm:w-64">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" id="search-input" oninput="renderBeats()" placeholder="Search title or tag..." class="w-full pl-10 pr-4 py-2 rounded-xl bg-brand-dark border border-brand-border text-xs text-white placeholder-gray-500 focus:outline-none focus:border-brand-red transition-all">
+                </div>
+
+                <select id="sort-select" onchange="renderBeats()" class="px-3 py-2 rounded-xl bg-brand-dark border border-brand-border text-xs text-gray-300 focus:outline-none focus:border-brand-red">
+                    <option value="newest">Newest First</option>
+                    <option value="bpm-asc">BPM (Low to High)</option>
+                    <option value="bpm-desc">BPM (High to Low)</option>
+                    <option value="price-asc">Price (Low to High)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Beat Cards Grid -->
+        <div id="beats-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Dynamically Rendered via JS -->
+        </div>
+    </section>
+
+    <!-- Licensing Info Section -->
+    <section id="licenses" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-brand-border/40">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <h2 class="text-3xl sm:text-4xl font-display font-extrabold uppercase tracking-tight text-white">
+                TRANSPARENT <span class="text-brand-red">LICENSING TIERS</span>
+            </h2>
+            <p class="text-gray-400 text-sm mt-2">Get instant access to non-tagged audio files and legally binding license PDF contracts immediately after purchase.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Tier 1: MP3 Lease -->
+            <div class="glass-panel p-6 rounded-2xl border border-brand-border flex flex-col justify-between hover:border-brand-red/40 transition-all">
+                <div>
+                    <div class="text-brand-red font-mono text-xs font-bold uppercase mb-2">ENTRY TIER</div>
+                    <h3 class="text-2xl font-bold text-white mb-1">BASIC MP3 LEASE</h3>
+                    <div class="text-3xl font-extrabold text-white my-4">$29.99 <span class="text-xs font-normal text-gray-400">/ per beat</span></div>
+                    <ul class="space-y-3 text-xs text-gray-300 mb-6">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-red"></i> High Quality Untagged MP3</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-red"></i> Up to 100,000 Streams</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-red"></i> Non-Exclusive Rights</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-red"></i> PDF License Agreement</li>
+                    </ul>
+                </div>
+                <button onclick="scrollToBeats()" class="w-full py-3 rounded-xl bg-brand-card hover:bg-brand-red hover:text-white text-gray-200 text-xs font-bold transition-all border border-brand-border">Select Beat</button>
+            </div>
+
+            <!-- Tier 2: Premium WAV + Stems (Featured) -->
+            <div class="glass-panel p-6 rounded-2xl border-2 border-brand-red relative flex flex-col justify-between shadow-xl shadow-brand-red/10 scale-105">
+                <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-red text-white text-[10px] font-extrabold uppercase px-3 py-1 rounded-full tracking-wider">
+                    MOST POPULAR FOR ARTISTS
+                </div>
+                <div>
+                    <div class="text-brand-purple font-mono text-xs font-bold uppercase mb-2">FULL STEMS ACCESS</div>
+                    <h3 class="text-2xl font-bold text-white mb-1">PREMIUM WAV + STEMS</h3>
+                    <div class="text-3xl font-extrabold text-white my-4">$79.99 <span class="text-xs font-normal text-gray-400">/ per beat</span></div>
+                    <ul class="space-y-3 text-xs text-gray-300 mb-6">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-red"></i> 24-Bit Uncompressed WAV</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-red"></i> Full Tracked-Out Audio STEMS</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-red"></i> Up to 500,000 Streams</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-red"></i> Commercial Performance Rights</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-red"></i> Instant PDF License Contract</li>
+                    </ul>
+                </div>
+                <button onclick="scrollToBeats()" class="w-full py-3 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold shadow-lg transition-all">Select Beat</button>
+            </div>
+
+            <!-- Tier 3: Exclusive Rights -->
+            <div class="glass-panel p-6 rounded-2xl border border-brand-border flex flex-col justify-between hover:border-brand-purple/40 transition-all">
+                <div>
+                    <div class="text-brand-purple font-mono text-xs font-bold uppercase mb-2">FULL OWNERSHIP</div>
+                    <h3 class="text-2xl font-bold text-white mb-1">EXCLUSIVE UNLIMITED</h3>
+                    <div class="text-3xl font-extrabold text-white my-4">$299.99 <span class="text-xs font-normal text-gray-400">/ per beat</span></div>
+                    <ul class="space-y-3 text-xs text-gray-300 mb-6">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-purple"></i> 100% Exclusive Full Rights</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-purple"></i> Unlimited Commercial Streams</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-purple"></i> Beat Removed From Marketplace</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-purple"></i> Full Master & STEM Files</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-purple"></i> Customized Master Transfer PDF</li>
+                    </ul>
+                </div>
+                <button onclick="scrollToBeats()" class="w-full py-3 rounded-xl bg-brand-card hover:bg-brand-purple hover:text-white text-gray-200 text-xs font-bold transition-all border border-brand-border">Select Beat</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MODAL 1: License Selection & Checkout Modal -->
+    <div id="checkout-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass-panel w-full max-w-2xl rounded-3xl border border-brand-border p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative animate-in fade-in zoom-in-95 duration-200">
+            
+            <button onclick="closeCheckoutModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <div class="flex items-center gap-4 mb-6">
+                <img id="modal-cover" src="" alt="Cover" class="w-16 h-16 rounded-xl object-cover border border-brand-border">
+                <div>
+                    <span class="text-xs font-mono text-brand-red uppercase font-bold">SELECT LICENSE TIER</span>
+                    <h3 id="modal-beat-title" class="text-2xl font-bold text-white">Track Title</h3>
+                    <p id="modal-beat-meta" class="text-xs text-gray-400">BPM • Key</p>
+                </div>
+            </div>
+
+            <!-- License Options Radio Group -->
+            <div class="space-y-3 mb-6">
+                <label class="license-option block glass-card p-4 rounded-xl border border-brand-border hover:border-brand-red cursor-pointer transition-all" onclick="selectTier('basic', 29.99)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <input type="radio" name="license_tier" value="basic" checked class="accent-brand-red">
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Basic MP3 Lease</h4>
+                                <p class="text-xs text-gray-400">Untagged MP3 • Up to 100k Streams</p>
+                            </div>
+                        </div>
+                        <span class="font-extrabold text-white text-lg">$29.99</span>
+                    </div>
+                </label>
+
+                <label class="license-option block glass-card p-4 rounded-xl border border-brand-red/60 bg-brand-red/5 cursor-pointer transition-all" onclick="selectTier('premium', 79.99)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <input type="radio" name="license_tier" value="premium" class="accent-brand-red">
+                            <div>
+                                <h4 class="font-bold text-white text-sm flex items-center gap-2">
+                                    Premium WAV + STEMS
+                                    <span class="bg-brand-red text-white text-[9px] px-2 py-0.5 rounded font-extrabold">RECOMMENDED</span>
+                                </h4>
+                                <p class="text-xs text-gray-400">High-Res WAV + Separate Audio Stems</p>
+                            </div>
+                        </div>
+                        <span class="font-extrabold text-white text-lg">$79.99</span>
+                    </div>
+                </label>
+
+                <label class="license-option block glass-card p-4 rounded-xl border border-brand-border hover:border-brand-purple cursor-pointer transition-all" onclick="selectTier('exclusive', 299.99)">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <input type="radio" name="license_tier" value="exclusive" class="accent-brand-purple">
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Unlimited Exclusive Rights</h4>
+                                <p class="text-xs text-gray-400">Full Master Ownership • Unrestricted Streams</p>
+                            </div>
+                        </div>
+                        <span class="font-extrabold text-white text-lg">$299.99</span>
+                    </div>
+                </label>
+            </div>
+
+            <!-- Buyer Details Form -->
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Artist / Licensee Name</label>
+                    <input type="text" id="buyer-name" placeholder="e.g. Young Producer / Stage Name" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-sm text-white focus:outline-none focus:border-brand-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Email Address (For Instant Download & PDF)</label>
+                    <input type="email" id="buyer-email" placeholder="artist@recordlabel.com" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-sm text-white focus:outline-none focus:border-brand-red">
+                </div>
+            </div>
+
+            <!-- Payment Simulation Buttons -->
+            <div class="pt-4 border-t border-brand-border/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs text-gray-400 block">Total Due:</span>
+                    <span id="checkout-total-price" class="text-2xl font-extrabold text-white">$79.99</span>
+                </div>
+                <button onclick="processCheckout()" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-brand-red hover:bg-brand-redHover text-white font-bold text-sm shadow-xl shadow-brand-red/30 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="lock" class="w-4 h-4"></i> Complete Checkout & Generate License
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL 2: Auto-Generated License Agreement Certificate Modal -->
+    <div id="license-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+        <div class="glass-panel w-full max-w-3xl rounded-3xl border border-brand-red/50 p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative">
+            
+            <button onclick="closeLicenseModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <!-- Certificate Header -->
+            <div class="text-center border-b border-brand-border pb-6 mb-6">
+                <div class="inline-flex p-3 rounded-2xl bg-brand-red/10 border border-brand-red/30 text-brand-red mb-3">
+                    <i data-lucide="award" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-2xl font-display font-extrabold uppercase text-white">AUTOMATED BEAT LICENSE CERTIFICATE</h3>
+                <p class="text-xs font-mono text-brand-muted mt-1">ISSUED BY BEAT ARMORY MARKETPLACE ENGINE</p>
+            </div>
+
+            <!-- Legal Agreement Document Container -->
+            <div class="bg-brand-dark/90 p-6 rounded-2xl border border-brand-border font-mono text-xs space-y-4 text-gray-300 leading-relaxed">
+                <div class="grid grid-cols-2 gap-4 border-b border-brand-border/60 pb-4 text-[11px]">
+                    <div>
+                        <span class="text-gray-500 block">LICENSE ID:</span>
+                        <span id="pdf-lic-id" class="text-white font-bold">LIC-99284-X</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">DATE OF ISSUE:</span>
+                        <span id="pdf-date" class="text-white font-bold">2026-10-10</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">PRODUCER / GRANTOR:</span>
+                        <span class="text-white font-bold">BEAT ARMORY PRODUCTIONS</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 block">LICENSEE / ARTIST:</span>
+                        <span id="pdf-buyer" class="text-brand-red font-bold">MC Jay (Demo)</span>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="text-gray-500 block">TRACK TITLE:</span>
+                    <span id="pdf-track" class="text-white text-sm font-bold">MAGNOLIA VIBES</span>
+                </div>
+
+                <div>
+                    <span class="text-gray-500 block">GRANT OF RIGHTS:</span>
+                    <p class="mt-1 text-gray-400">
+                        This non-exclusive license grants the Licensee commercial recording rights to broadcast, perform, and distribute the audio work titled above. The Producer retains original publishing master rights unless Exclusive ownership was acquired.
+                    </p>
+                </div>
+
+                <div class="pt-2 border-t border-brand-border/40 flex items-center justify-between text-[10px] text-gray-500">
+                    <span>STATUS: <strong class="text-emerald-400">VERIFIED & ACTIVE</strong></span>
+                    <span>DIGITAL SIGNATURE: 0x8F92...B39A</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 flex flex-wrap gap-4 items-center justify-between">
+                <button onclick="downloadLicenseDocument()" class="px-6 py-3 rounded-xl bg-brand-card hover:bg-brand-border text-white text-xs font-bold border border-brand-border flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4 text-brand-red"></i> Download Printable License Contract
+                </button>
+                <button onclick="openPurchasedModal()" class="px-6 py-3 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold shadow-lg">
+                    Go to My Audio Downloads
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL 3: Purchased Beats & Audio Downloads Library -->
+    <div id="purchased-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass-panel w-full max-w-2xl rounded-3xl border border-brand-border p-6 sm:p-8 max-h-[85vh] overflow-y-auto relative">
+            <button onclick="togglePurchasedModal()" class="absolute top-6 right-6 text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <h3 class="text-2xl font-bold text-white mb-1">My Purchased Beats & Stem Passports</h3>
+            <p class="text-xs text-gray-400 mb-6">Access your un-mastered WAVs, individual audio STEM archives, and auto-generated licenses.</p>
+
+            <div id="purchased-list" class="space-y-4">
+                <!-- Dynamically Populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- DRAWER: Producer Admin Upload Drawer -->
+    <div id="admin-drawer" class="fixed inset-y-0 right-0 w-full max-w-md z-50 hidden glass-panel border-l border-brand-border p-6 shadow-2xl overflow-y-auto">
+        <div class="flex items-center justify-between border-b border-brand-border pb-4 mb-6">
+            <div class="flex items-center gap-2">
+                <i data-lucide="plus-circle" class="w-5 h-5 text-brand-red"></i>
+                <h3 class="font-bold text-white text-lg">Upload New Beat</h3>
+            </div>
+            <button onclick="toggleAdminDrawer()" class="text-gray-400 hover:text-white">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <form id="admin-upload-form" onsubmit="handleAdminUpload(event)" class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Track Title</label>
+                <input type="text" id="admin-title" required placeholder="e.g. Cyber Punk Trap 140" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-xs text-white focus:outline-none focus:border-brand-red">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Genre</label>
+                    <select id="admin-genre" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-xs text-white">
+                        <option value="TRAP">Trap</option>
+                        <option value="DRILL">Drill</option>
+                        <option value="BOOM BAP">Boom Bap</option>
+                        <option value="AFROBEAT">Afrobeat</option>
+                        <option value="CYBERPUNK">Cyberpunk</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 uppercase mb-1">BPM Tempo</label>
+                    <input type="number" id="admin-bpm" required value="140" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-xs text-white">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Musical Key</label>
+                <input type="text" id="admin-key" required placeholder="e.g. F Minor" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-xs text-white">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Cover Art Image URL</label>
+                <input type="url" id="admin-cover" required value="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&auto=format&fit=crop&q=80" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-xs text-white">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-gray-300 uppercase mb-1">Audio Audio Sample URL (MP3)</label>
+                <input type="url" id="admin-audio" required value="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a2a8e8.mp3" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-xs text-white">
+            </div>
+
+            <button type="submit" class="w-full py-3 mt-4 rounded-xl bg-brand-red hover:bg-brand-redHover text-white font-bold text-xs uppercase tracking-wider shadow-lg">
+                Publish Beat to Store
+            </button>
+        </form>
+    </div>
+
+    <!-- STICKY GLOBAL AUDIO PLAYER ENGINE -->
+    <div id="audio-player-bar" class="fixed bottom-0 inset-x-0 z-40 glass-panel border-t border-brand-border/80 px-4 sm:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4 transition-transform duration-300">
+        
+        <!-- Track Info -->
+        <div class="flex items-center gap-3 w-full md:w-1/4">
+            <img id="player-cover" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200&auto=format&fit=crop&q=80" class="w-12 h-12 rounded-xl object-cover border border-brand-border shrink-0">
+            <div class="overflow-hidden">
+                <h4 id="player-title" class="text-sm font-bold text-white truncate">Magnolia Vibes</h4>
+                <div class="flex items-center gap-2 text-xs text-gray-400">
+                    <span id="player-bpm">140 BPM</span> • <span id="player-key">C Minor</span>
+                    <span class="bg-brand-red/20 text-brand-red text-[9px] px-1.5 py-0.5 rounded font-mono font-bold">TAGGED PREVIEW</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Waveform & Controls -->
+        <div class="flex-1 w-full max-w-xl flex flex-col items-center gap-1.5">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleAudioPlay()" class="w-10 h-10 rounded-full bg-brand-red text-white flex items-center justify-center shadow-lg shadow-brand-red/30 hover:scale-105 transition-transform">
+                    <i id="player-play-btn" data-lucide="play" class="w-5 h-5 fill-current"></i>
+                </button>
+            </div>
+
+            <!-- Simulated Visualizer Waveform -->
+            <div class="w-full flex items-center gap-1 h-8 cursor-pointer" id="waveform-container" onclick="seekAudio(event)">
+                <!-- Generated Bars JS -->
+            </div>
+
+            <div class="flex justify-between w-full text-[10px] font-mono text-gray-400">
+                <span id="player-time-current">0:00</span>
+                <span id="player-time-duration">0:00</span>
+            </div>
+        </div>
+
+        <!-- Action & Volume -->
+        <div class="hidden md:flex items-center justify-end gap-4 w-1/4">
+            <i data-lucide="volume-2" class="w-4 h-4 text-gray-400"></i>
+            <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.8" oninput="setVolume(this.value)" class="w-20 accent-brand-red">
+            <button id="player-buy-btn" onclick="openCheckoutModalCurrent()" class="px-4 py-2 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold shadow-lg transition-all">
+                Buy License ($29.99)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Initial Beats Database
+        let beatsDatabase = [
+            {
+                id: 1,
+                title: "MAGNOLIA VIBES",
+                genre: "TRAP",
+                bpm: 140,
+                key: "C Minor",
+                price: 29.99,
+                cover: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&auto=format&fit=crop&q=80",
+                audioUrl: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a2a8e8.mp3"
+            },
+            {
+                id: 2,
+                title: "CYBER CITY DRILL",
+                genre: "DRILL",
+                bpm: 144,
+                key: "G Minor",
+                price: 34.99,
+                cover: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400&auto=format&fit=crop&q=80",
+                audioUrl: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3"
+            },
+            {
+                id: 3,
+                title: "SYNTH ERA NIGHTS",
+                genre: "CYBERPUNK",
+                bpm: 128,
+                key: "F# Minor",
+                price: 29.99,
+                cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&auto=format&fit=crop&q=80",
+                audioUrl: "https://cdn.pixabay.com/download/audio/2022/10/14/audio_9939f7f023.mp3"
+            },
+            {
+                id: 4,
+                title: "AFRO GROOVE GOLD",
+                genre: "AFROBEAT",
+                bpm: 105,
+                key: "A Major",
+                price: 39.99,
+                cover: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=400&auto=format&fit=crop&q=80",
+                audioUrl: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3"
+            },
+            {
+                id: 5,
+                title: "90S STREET DREAMS",
+                genre: "BOOM BAP",
+                bpm: 92,
+                key: "D Minor",
+                price: 29.99,
+                cover: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&auto=format&fit=crop&q=80",
+                audioUrl: "https://cdn.pixabay.com/download/audio/2022/03/10/audio_c3b999fa41.mp3"
+            }
+        ];
+
+        let currentGenre = 'ALL';
+        let currentPlayingBeat = beatsDatabase[0];
+        let audioEngine = new Audio(currentPlayingBeat.audioUrl);
+        let isPlaying = false;
+        let selectedTierPrice = 29.99;
+        let activeSelectedBeatForCheckout = null;
+        let purchasedBeats = [];
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            buildWaveformBars();
+            renderBeats();
+            setupAudioEngineListeners();
+        });
+
+        function buildWaveformBars() {
+            const container = document.getElementById('waveform-container');
+            container.innerHTML = '';
+            for (let i = 0; i < 48; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'waveform-bar flex-1 bg-brand-border rounded-full hover:bg-brand-red';
+                bar.style.height = `${Math.floor(Math.random() * 70) + 20}%`;
+                container.appendChild(bar);
+            }
+        }
+
+        function updateWaveformProgress(percent) {
+            const bars = document.querySelectorAll('.waveform-bar');
+            const activeCount = Math.floor(bars.length * percent);
+            bars.forEach((bar, idx) => {
+                if (idx <= activeCount) {
+                    bar.classList.add('bg-brand-red');
+                    bar.classList.remove('bg-brand-border');
+                } else {
+                    bar.classList.remove('bg-brand-red');
+                    bar.classList.add('bg-brand-border');
+                }
+            });
+        }
+
+        function setupAudioEngineListeners() {
+            audioEngine.addEventListener('timeupdate', () => {
+                if (!audioEngine.duration) return;
+                const percent = audioEngine.currentTime / audioEngine.duration;
+                updateWaveformProgress(percent);
+                document.getElementById('player-time-current').textContent = formatTime(audioEngine.currentTime);
+                document.getElementById('player-time-duration').textContent = formatTime(audioEngine.duration);
+            });
+
+            audioEngine.addEventListener('ended', () => {
+                isPlaying = false;
+                updatePlayButtonIcons();
+            });
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function playBeat(beatId) {
+            const beat = beatsDatabase.find(b => b.id === beatId);
+            if (!beat) return;
+
+            if (currentPlayingBeat.id === beat.id) {
+                toggleAudioPlay();
+                return;
+            }
+
+            currentPlayingBeat = beat;
+            audioEngine.src = beat.audioUrl;
+            audioEngine.play();
+            isPlaying = true;
+
+            // Update Player UI
+            document.getElementById('player-cover').src = beat.cover;
+            document.getElementById('player-title').textContent = beat.title;
+            document.getElementById('player-bpm').textContent = `${beat.bpm} BPM`;
+            document.getElementById('player-key').textContent = beat.key;
+            document.getElementById('player-buy-btn').textContent = `Buy License ($${beat.price})`;
+
+            updatePlayButtonIcons();
+            renderBeats();
+        }
+
+        function toggleAudioPlay() {
+            if (isPlaying) {
+                audioEngine.pause();
+                isPlaying = false;
+            } else {
+                audioEngine.play();
+                isPlaying = true;
+            }
+            updatePlayButtonIcons();
+        }
+
+        function updatePlayButtonIcons() {
+            const mainBtn = document.getElementById('player-play-btn');
+            if (mainBtn) {
+                mainBtn.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
+                lucide.createIcons();
+            }
+        }
+
+        function setVolume(val) {
+            audioEngine.volume = val;
+        }
+
+        function seekAudio(e) {
+            const container = document.getElementById('waveform-container');
+            const rect = container.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percent = clickX / rect.width;
+            audioEngine.currentTime = percent * audioEngine.duration;
+        }
+
+        function playHeroFeaturedBeat() {
+            playBeat(1);
+        }
+
+        function filterGenre(genre) {
+            currentGenre = genre;
+            document.querySelectorAll('.genre-btn').forEach(btn => {
+                if (btn.textContent.includes(genre) || (genre === 'ALL' && btn.textContent.includes('ALL'))) {
+                    btn.className = 'genre-btn active px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-brand-red text-white';
+                } else {
+                    btn.className = 'genre-btn px-4 py-2 rounded-xl text-xs font-bold uppercase transition-all bg-brand-card hover:bg-brand-border text-gray-300';
+                }
+            });
+            renderBeats();
+        }
+
+        function renderBeats() {
+            const grid = document.getElementById('beats-grid');
+            const searchVal = document.getElementById('search-input').value.toLowerCase();
+            const sortVal = document.getElementById('sort-select').value;
+
+            let filtered = beatsDatabase.filter(beat => {
+                const matchesGenre = currentGenre === 'ALL' || beat.genre === currentGenre;
+                const matchesSearch = beat.title.toLowerCase().includes(searchVal) || beat.genre.toLowerCase().includes(searchVal);
+                return matchesGenre && matchesSearch;
+            });
+
+            // Sorting logic
+            if (sortVal === 'bpm-asc') filtered.sort((a,b) => a.bpm - b.bpm);
+            if (sortVal === 'bpm-desc') filtered.sort((a,b) => b.bpm - a.bpm);
+            if (sortVal === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+
+            document.getElementById('beat-count').textContent = filtered.length;
+
+            grid.innerHTML = filtered.map(beat => {
+                const isCurrent = currentPlayingBeat.id === beat.id && isPlaying;
+                return `
+                    <div class="glass-card p-5 rounded-2xl flex flex-col justify-between group">
+                        <div>
+                            <div class="relative w-full aspect-square rounded-xl overflow-hidden mb-4 group">
+                                <img src="${beat.cover}" alt="${beat.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                    <button onclick="playBeat(${beat.id})" class="w-12 h-12 rounded-full bg-brand-red text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform">
+                                        <i data-lucide="${isCurrent ? 'pause' : 'play'}" class="w-6 h-6 fill-current"></i>
+                                    </button>
+                                </div>
+                                <span class="absolute top-3 left-3 bg-brand-dark/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold text-brand-red border border-brand-border">${beat.genre}</span>
+                            </div>
+
+                            <div class="flex items-start justify-between gap-2 mb-2">
+                                <div>
+                                    <h3 class="font-bold text-white text-base truncate group-hover:text-brand-red transition-colors">${beat.title}</h3>
+                                    <p class="text-xs text-gray-400 font-mono">${beat.bpm} BPM • ${beat.key}</p>
+                                </div>
+                                <span class="text-lg font-extrabold text-white">$${beat.price}</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-brand-border/40 flex items-center justify-between gap-3 mt-3">
+                            <button onclick="playBeat(${beat.id})" class="px-3.5 py-2 rounded-xl bg-brand-dark hover:bg-brand-border text-xs text-gray-300 font-semibold flex items-center gap-1.5 transition-all">
+                                <i data-lucide="${isCurrent ? 'pause' : 'play'}" class="w-3.5 h-3.5"></i> ${isCurrent ? 'Pause' : 'Preview'}
+                            </button>
+
+                            <button onclick="openCheckoutModal(${beat.id})" class="flex-1 py-2 rounded-xl bg-brand-red hover:bg-brand-redHover text-white text-xs font-bold shadow-lg shadow-brand-red/20 transition-all flex items-center justify-center gap-1.5">
+                                <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i> Buy / License
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        function openCheckoutModal(beatId) {
+            const beat = beatsDatabase.find(b => b.id === beatId);
+            if (!beat) return;
+
+            activeSelectedBeatForCheckout = beat;
+            document.getElementById('modal-cover').src = beat.cover;
+            document.getElementById('modal-beat-title').textContent = beat.title;
+            document.getElementById('modal-beat-meta').textContent = `${beat.genre} • ${beat.bpm} BPM • ${beat.key}`;
+            
+            selectTier('basic', beat.price);
+            document.getElementById('checkout-modal').classList.remove('hidden');
+        }
+
+        function openCheckoutModalCurrent() {
+            if (currentPlayingBeat) openCheckoutModal(currentPlayingBeat.id);
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.add('hidden');
+        }
+
+        function selectTier(tier, price) {
+            selectedTierPrice = price;
+            document.getElementById('checkout-total-price').textContent = `$${price.toFixed(2)}`;
+        }
+
+        function processCheckout() {
+            const buyerName = document.getElementById('buyer-name').value || "Valued Artist";
+            const buyerEmail = document.getElementById('buyer-email').value || "artist@music.com";
+
+            if (!activeSelectedBeatForCheckout) return;
+
+            // Generate Purchased Item
+            const purchasedItem = {
+                licenseId: `LIC-${Math.floor(100000 + Math.random() * 900000)}`,
+                beat: activeSelectedBeatForCheckout,
+                buyerName: buyerName,
+                buyerEmail: buyerEmail,
+                date: new Date().toISOString().split('T')[0],
+                price: selectedTierPrice
+            };
+
+            purchasedBeats.push(purchasedItem);
+            updatePurchasedBadge();
+
+            // Populate Certificate Modal
+            document.getElementById('pdf-lic-id').textContent = purchasedItem.licenseId;
+            document.getElementById('pdf-date').textContent = purchasedItem.date;
+            document.getElementById('pdf-buyer').textContent = buyerName;
+            document.getElementById('pdf-track').textContent = purchasedItem.beat.title;
+
+            closeCheckoutModal();
+            document.getElementById('license-modal').classList.remove('hidden');
+        }
+
+        function closeLicenseModal() {
+            document.getElementById('license-modal').classList.add('hidden');
+        }
+
+        function updatePurchasedBadge() {
+            const badge = document.getElementById('purchased-badge');
+            badge.textContent = purchasedBeats.length;
+            if (purchasedBeats.length > 0) badge.classList.remove('hidden');
+        }
+
+        function openPurchasedModal() {
+            closeLicenseModal();
+            const list = document.getElementById('purchased-list');
+            
+            if (purchasedBeats.length === 0) {
+                list.innerHTML = `<div class="text-center py-8 text-gray-400 text-xs font-mono">No purchased licenses yet. Explore the vault!</div>`;
+            } else {
+                list.innerHTML = purchasedBeats.map(item => `
+                    <div class="glass-card p-4 rounded-xl flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <img src="${item.beat.cover}" class="w-12 h-12 rounded-lg object-cover">
+                            <div>
+                                <h4 class="font-bold text-white text-sm">${item.beat.title}</h4>
+                                <p class="text-xs text-gray-400 font-mono">${item.licenseId} • $${item.price}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <a href="${item.beat.audioUrl}" download class="px-3 py-1.5 rounded-lg bg-brand-red text-white text-xs font-bold flex items-center gap-1">
+                                <i data-lucide="download" class="w-3.5 h-3.5"></i> WAV
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('purchased-modal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function togglePurchasedModal() {
+            const modal = document.getElementById('purchased-modal');
+            if (modal.classList.contains('hidden')) {
+                openPurchasedModal();
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function downloadLicenseDocument() {
+            alert('Your official license agreement PDF has been compiled and downloaded!');
+        }
+
+        function toggleAdminDrawer() {
+            const drawer = document.getElementById('admin-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function handleAdminUpload(e) {
+            e.preventDefault();
+            const newBeat = {
+                id: Date.now(),
+                title: document.getElementById('admin-title').value.toUpperCase(),
+                genre: document.getElementById('admin-genre').value,
+                bpm: parseInt(document.getElementById('admin-bpm').value),
+                key: document.getElementById('admin-key').value,
+                price: 29.99,
+                cover: document.getElementById('admin-cover').value,
+                audioUrl: document.getElementById('admin-audio').value
+            };
+
+            beatsDatabase.unshift(newBeat);
+            renderBeats();
+            toggleAdminDrawer();
+            alert(`Beat "${newBeat.title}" successfully published to marketplace vault!`);
+        }
+
+        function scrollToBeats() {
+            document.getElementById('beats').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
