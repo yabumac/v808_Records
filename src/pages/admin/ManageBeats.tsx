@@ -13,11 +13,14 @@ const empty: FieldValues = {
   bpm: '140',
   key_root: 'C Minor',
   price: '29.99',
-  cover_url:
-    'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&auto=format&fit=crop&q=80',
+  cover_url: '/covers/fallen-city.jpg',
   audio_url: '',
+  stems_url: '',
+  midi_url: '',
   description: '',
   tags: '',
+  has_stems: false,
+  has_midi: false,
   is_published: true,
 }
 
@@ -38,7 +41,11 @@ export default function ManageBeats() {
       price: Number(data.get('price') || 29.99),
       cover_url: String(data.get('cover_url') || ''),
       audio_url: String(data.get('audio_url') || ''),
+      stems_url: String(data.get('stems_url') || '') || undefined,
+      midi_url: String(data.get('midi_url') || '') || undefined,
       description: String(data.get('description') || ''),
+      has_stems: data.get('has_stems') === 'on',
+      has_midi: data.get('has_midi') === 'on',
       is_published: data.get('is_published') === 'on',
       tags: String(data.get('tags') || '')
         .split(',')
@@ -132,20 +139,24 @@ export default function ManageBeats() {
           <form key={editing === 'new' ? 'new' : editing.id} onSubmit={handleSubmit} className="space-y-4">
             <BeatFormFields
               initial={
-                editing === 'new'
-                  ? empty
-                  : {
-                      title: editing.title,
-                      genre: editing.genre,
-                      bpm: String(editing.bpm),
-                      key_root: editing.key_root,
-                      price: String(editing.price),
-                      cover_url: editing.cover_url,
-                      audio_url: editing.audio_url,
-                      description: editing.description ?? '',
-                      tags: (editing.tags ?? []).join(', '),
-                      is_published: editing.is_published,
-                    }
+                    editing === 'new'
+                      ? empty
+                      : {
+                          title: editing.title,
+                          genre: editing.genre,
+                          bpm: String(editing.bpm),
+                          key_root: editing.key_root,
+                          price: String(editing.price),
+                          cover_url: editing.cover_url,
+                          audio_url: editing.audio_url,
+                          stems_url: editing.stems_url ?? '',
+                          midi_url: editing.midi_url ?? '',
+                          description: editing.description ?? '',
+                          tags: (editing.tags ?? []).join(', '),
+                          has_stems: Boolean(editing.has_stems),
+                          has_midi: Boolean(editing.has_midi),
+                          is_published: editing.is_published,
+                        }
               }
             />
             <button type="submit" className="btn-primary w-full py-3 text-xs uppercase tracking-wider">
@@ -166,8 +177,12 @@ interface FieldValues {
   price: string
   cover_url: string
   audio_url: string
+  stems_url: string
+  midi_url: string
   description: string
   tags: string
+  has_stems: boolean
+  has_midi: boolean
   is_published: boolean
 }
 
@@ -181,7 +196,7 @@ function BeatFormFields({ initial }: { initial: FieldValues }) {
         </div>
         <div>
           <label className="block text-xs font-bold text-ink/80 uppercase mb-1">Genre</label>
-          <select name="genre" className="input" defaultValue={initial.genre}>
+          <select name="genre" className="input [&>option]:bg-card [&>option]:text-ink" defaultValue={initial.genre}>
             {GENRES.map((g) => (
               <option key={g} value={g}>
                 {g}
@@ -202,12 +217,20 @@ function BeatFormFields({ initial }: { initial: FieldValues }) {
           <input name="price" type="number" step="0.01" required className="input" defaultValue={initial.price} />
         </div>
         <div className="col-span-2">
-          <label className="block text-xs font-bold text-ink/80 uppercase mb-1">Cover art URL</label>
-          <input name="cover_url" type="url" required className="input" defaultValue={initial.cover_url} />
+          <label className="block text-xs font-bold text-ink/80 uppercase mb-1">Cover art URL or path</label>
+          <input name="cover_url" type="text" required className="input" defaultValue={initial.cover_url} />
         </div>
         <div className="col-span-2">
-          <label className="block text-xs font-bold text-ink/80 uppercase mb-1">Audio sample URL (MP3)</label>
-          <input name="audio_url" type="url" className="input" defaultValue={initial.audio_url} />
+          <label className="block text-xs font-bold text-ink/80 uppercase mb-1">Audio sample URL or path</label>
+          <input name="audio_url" type="text" className="input" defaultValue={initial.audio_url} />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-ink/80 uppercase mb-1">Stems archive URL (optional)</label>
+          <input name="stems_url" type="text" className="input" defaultValue={initial.stems_url} placeholder="Private bucket path or URL" />
+        </div>
+        <div>
+          <label className="block text-xs font-bold text-ink/80 uppercase mb-1">MIDI archive URL (optional)</label>
+          <input name="midi_url" type="text" className="input" defaultValue={initial.midi_url} placeholder="Private bucket path or URL" />
         </div>
         <div className="col-span-2">
           <label className="block text-xs font-bold text-ink/80 uppercase mb-1">Tags (comma separated)</label>
@@ -217,15 +240,20 @@ function BeatFormFields({ initial }: { initial: FieldValues }) {
           <label className="block text-xs font-bold text-ink/80 uppercase mb-1">Description</label>
           <textarea name="description" rows={3} className="input resize-none" defaultValue={initial.description} />
         </div>
-        <label className="col-span-2 flex items-center gap-2 text-sm">
-          <input
-            name="is_published"
-            type="checkbox"
-            defaultChecked={initial.is_published}
-            className="accent-brand"
-          />
-          Publish immediately
-        </label>
+        <div className="col-span-2 flex flex-wrap gap-5 pt-1">
+          <label className="flex items-center gap-2 text-sm text-ink">
+            <input name="has_stems" type="checkbox" defaultChecked={initial.has_stems} className="accent-brand" />
+            Includes Stems (unlocks Premium)
+          </label>
+          <label className="flex items-center gap-2 text-sm text-ink">
+            <input name="has_midi" type="checkbox" defaultChecked={initial.has_midi} className="accent-brand" />
+            Includes MIDI (unlocks Exclusive)
+          </label>
+          <label className="flex items-center gap-2 text-sm text-ink">
+            <input name="is_published" type="checkbox" defaultChecked={initial.is_published} className="accent-brand" />
+            Publish immediately
+          </label>
+        </div>
       </div>
     </>
   )

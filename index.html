@@ -9,16 +9,7 @@
       content="V808 Records — premium beats with instant licensing, stem downloads and legally binding license contracts."
     />
     <title>V808 Records | Premium Beats & Instant Licensing</title>
-    <script>
-      // Apply saved theme before paint to avoid flash
-      (function () {
-        try {
-          var t = localStorage.getItem('v808-theme');
-          var dark = t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-          document.documentElement.classList.toggle('dark', dark);
-        } catch (e) {}
-      })();
-    </script>
+    <script src="/theme-init.js"></script>
   </head>
   <body>
     <div id="root"></div>

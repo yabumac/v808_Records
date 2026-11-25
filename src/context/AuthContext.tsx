@@ -21,6 +21,7 @@ interface AuthContextValue {
     password: string,
     fullName?: string,
   ) => Promise<{ error: string | null }>
+  signInWithGoogle: (redirectPath?: string) => Promise<{ error: string | null }>
   signOut: () => Promise<void>
 }
 
@@ -44,6 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
       setSession(s)
+      setLoading(false)
     })
 
     return () => sub.subscription.unsubscribe()
@@ -63,17 +65,57 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [session?.user])
 
   const signIn: AuthContextValue['signIn'] = async (email, password) => {
-    if (!supabase) return { error: 'Supabase is not configured.' }
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    if (!supabase) {
+      return {
+        error:
+          'Authentication requires Supabase keys (VITE_SUPABASE_URL & VITE_SUPABASE_ANON_KEY).',
+      }
+    }
+    const cleanEmail = email.trim().toLowerCase()
+    if (!cleanEmail || !password) return { error: 'Email and password are required.' }
+    const { error } = await supabase.auth.signInWithPassword({ email: cleanEmail, password })
     return { error: error?.message ?? null }
   }
 
   const signUp: AuthContextValue['signUp'] = async (email, password, fullName) => {
-    if (!supabase) return { error: 'Supabase is not configured.' }
+    if (!supabase) {
+      return {
+        error:
+          'Registration requires Supabase keys (VITE_SUPABASE_URL & VITE_SUPABASE_ANON_KEY).',
+      }
+    }
+    const cleanEmail = email.trim().toLowerCase()
+    if (!cleanEmail || password.length < 8) {
+      return { error: 'Use a valid email and a password of at least 8 characters.' }
+    }
     const { error } = await supabase.auth.signUp({
-      email,
+      email: cleanEmail,
       password,
-      options: { data: { full_name: fullName } },
+      options: {
+        data: { full_name: fullName?.trim() || '' },
+        emailRedirectTo: `${window.location.origin}/catalog`,
+      },
+    })
+    return { error: error?.message ?? null }
+  }
+
+  const signInWithGoogle: AuthContextValue['signInWithGoogle'] = async (redirectPath) => {
+    if (!supabase) {
+      return {
+        error:
+          'Google sign-in requires Supabase configuration (VITE_SUPABASE_URL & VITE_SUPABASE_ANON_KEY).',
+      }
+    }
+    const safePath =
+      redirectPath && redirectPath.startsWith('/') && !redirectPath.startsWith('//')
+        ? redirectPath
+        : '/catalog'
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}${safePath}`,
+        queryParams: { access_type: 'offline', prompt: 'select_account' },
+      },
     })
     return { error: error?.message ?? null }
   }
@@ -93,6 +135,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         isAdmin: profile?.role === 'admin',
         signIn,
         signUp,
+        signInWithGoogle,
         signOut,
       }}
     >

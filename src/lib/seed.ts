@@ -1,6 +1,8 @@
-import type { Beat, Tier } from '../types'
+import type { Beat, LicenseTier, PaymentProvider, Tier } from '../types'
 
 const baseTime = Date.UTC(2026, 0, 10)
+
+export const DEFAULT_ETB_RATE = 125
 
 /** Catalog sourced from @Yabuonthebeat — fallback when Supabase is not configured yet. */
 export const seedBeats: Beat[] = [
@@ -16,6 +18,8 @@ export const seedBeats: Beat[] = [
     description:
       'Ethiopian old-scale inspired dark trap beat blending traditional melodies with hard modern 808s.',
     tags: ['ethiopian', 'dark trap', '808'],
+    has_stems: false,
+    has_midi: false,
     is_published: true,
     created_at: new Date(baseTime - 0 * 86400000).toISOString(),
   },
@@ -31,6 +35,8 @@ export const seedBeats: Beat[] = [
     description:
       'Ethiopian-sampled drill instrumental pairing traditional scales with heavy sliding 808 patterns.',
     tags: ['ethiopian', 'drill', 'sliding 808'],
+    has_stems: false,
+    has_midi: false,
     is_published: true,
     created_at: new Date(baseTime - 1 * 86400000).toISOString(),
   },
@@ -45,6 +51,8 @@ export const seedBeats: Beat[] = [
     audio_url: '/beats/k9.m4a',
     description: 'Hard dark trap instrumental with punchy drums and relentless low-end drive.',
     tags: ['hard', 'dark trap'],
+    has_stems: false,
+    has_midi: false,
     is_published: true,
     created_at: new Date(baseTime - 2 * 86400000).toISOString(),
   },
@@ -60,6 +68,8 @@ export const seedBeats: Beat[] = [
     description:
       'Moody late-night dark trap beat layered with atmospheric synths and crisp hi-hats.',
     tags: ['dark trap', 'atmospheric'],
+    has_stems: false,
+    has_midi: false,
     is_published: true,
     created_at: new Date(baseTime - 3 * 86400000).toISOString(),
   },
@@ -75,6 +85,8 @@ export const seedBeats: Beat[] = [
     description:
       'Tenet movie inspired dark cinematic trap beat with tense sub-bass and eerie textures.',
     tags: ['cinematic', 'dark trap'],
+    has_stems: false,
+    has_midi: false,
     is_published: true,
     created_at: new Date(baseTime - 4 * 86400000).toISOString(),
   },
@@ -90,6 +102,8 @@ export const seedBeats: Beat[] = [
     description:
       'Hard-hitting trap instrumental driven by dark melodies and razor-sharp percussion.',
     tags: ['trap', 'dark'],
+    has_stems: false,
+    has_midi: false,
     is_published: true,
     created_at: new Date(baseTime - 5 * 86400000).toISOString(),
   },
@@ -105,6 +119,8 @@ export const seedBeats: Beat[] = [
     description:
       'Spanish-inspired drill beat pairing nylon acoustic textures with hard drill drums.',
     tags: ['spanish drill', 'melodic'],
+    has_stems: false,
+    has_midi: false,
     is_published: true,
     created_at: new Date(baseTime - 6 * 86400000).toISOString(),
   },
@@ -120,6 +136,8 @@ export const seedBeats: Beat[] = [
     description:
       'Aggressive drill instrumental built with heavy 808 glides and crisp snare bounce.',
     tags: ['drill', 'hard'],
+    has_stems: false,
+    has_midi: false,
     is_published: true,
     created_at: new Date(baseTime - 7 * 86400000).toISOString(),
   },
@@ -134,6 +152,8 @@ export const seedBeats: Beat[] = [
     audio_url: '/beats/dark-trap-2023.m4a',
     description: 'Dark trap instrumental produced by Yabsera Teshome (@Yabuonthebeat).',
     tags: ['dark trap', 'yabuonthebeat'],
+    has_stems: false,
+    has_midi: false,
     is_published: true,
     created_at: new Date(baseTime - 8 * 86400000).toISOString(),
   },
@@ -146,19 +166,23 @@ export const tiers: Tier[] = [
     id: 'basic',
     name: 'Basic MP3 Lease',
     price: 29.99,
-    tagline: 'Entry tier',
+    tagline: 'Entry tier · Available now',
+    requiresStems: false,
+    requiresMidi: false,
     features: [
-      'High quality untagged MP3',
+      'High quality untagged audio',
       'Up to 100,000 streams',
       'Non-exclusive rights',
-      'PDF license agreement',
+      'Signed PDF license agreement',
     ],
   },
   {
     id: 'premium',
     name: 'Premium WAV + Stems',
     price: 79.99,
-    tagline: 'Full stems access',
+    tagline: 'Full stems access · Future uploads',
+    requiresStems: true,
+    requiresMidi: false,
     features: [
       '24-bit uncompressed WAV',
       'Full tracked-out audio stems',
@@ -171,13 +195,101 @@ export const tiers: Tier[] = [
     id: 'exclusive',
     name: 'Exclusive Unlimited',
     price: 299.99,
-    tagline: 'Full ownership',
+    tagline: 'Full ownership + MIDI · Future uploads',
+    requiresStems: true,
+    requiresMidi: true,
     features: [
       '100% exclusive full rights',
       'Unlimited commercial streams',
       'Beat removed from marketplace',
-      'Full master & stem files',
+      'Full master, stems & MIDI files',
       'Customized master transfer PDF',
     ],
+  },
+]
+
+export function isTierAvailableForBeat(
+  tierId: LicenseTier,
+  beat?: Beat,
+): { available: boolean; reason?: string } {
+  const tier = tiers.find((t) => t.id === tierId)
+  if (!tier) return { available: false, reason: 'Unsupported tier.' }
+  if (!beat) {
+    if (tier.requiresStems || tier.requiresMidi) {
+      return {
+        available: false,
+        reason:
+          'Unavailable for current catalog releases (stems & MIDI not archived yet). Enabled on upcoming uploads.',
+      }
+    }
+    return { available: true }
+  }
+  if (tier.requiresStems && !beat.has_stems) {
+    return {
+      available: false,
+      reason: 'Stems are not available for this beat yet — coming on future uploads.',
+    }
+  }
+  if (tier.requiresMidi && !beat.has_midi) {
+    return {
+      available: false,
+      reason: 'MIDI & stems are not available for this beat yet — coming on future uploads.',
+    }
+  }
+  return { available: true }
+}
+
+export interface PaymentMethodMeta {
+  id: PaymentProvider
+  label: string
+  region: 'ethiopia' | 'international'
+  currency: 'ETB' | 'USD'
+  subtitle: string
+  badge: string
+  needsPhone?: boolean
+}
+
+export const PAYMENT_METHODS: PaymentMethodMeta[] = [
+  {
+    id: 'chapa',
+    label: 'Chapa Checkout',
+    region: 'ethiopia',
+    currency: 'ETB',
+    subtitle: 'Telebirr, CBE Birr, Amole, AwashBirr & Ethiopian Bank Cards',
+    badge: 'ETHIOPIA ALL-IN-ONE',
+  },
+  {
+    id: 'telebirr',
+    label: 'Telebirr',
+    region: 'ethiopia',
+    currency: 'ETB',
+    subtitle: 'Ethio Telecom mobile wallet instant confirmation',
+    badge: 'MOBILE MONEY',
+    needsPhone: true,
+  },
+  {
+    id: 'cbe',
+    label: 'CBE / CBE Birr',
+    region: 'ethiopia',
+    currency: 'ETB',
+    subtitle: 'Commercial Bank of Ethiopia mobile & wallet transfer',
+    badge: 'BANK & WALLET',
+    needsPhone: true,
+  },
+  {
+    id: 'stripe_card',
+    label: 'Credit / Debit Card',
+    region: 'international',
+    currency: 'USD',
+    subtitle: 'Visa, Mastercard, Amex, Apple Pay & Google Pay (3D Secure)',
+    badge: 'STRIPE SECURE',
+  },
+  {
+    id: 'paypal',
+    label: 'PayPal',
+    region: 'international',
+    currency: 'USD',
+    subtitle: 'PayPal balance or international cards with buyer protection',
+    badge: 'GLOBAL',
   },
 ]

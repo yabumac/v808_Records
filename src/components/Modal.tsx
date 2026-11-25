@@ -30,7 +30,9 @@ export default function Modal({
       onClick={onClose}
     >
       <div
-        className={`glass w-full ${maxWidth} rounded-3xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative animate-scale-in`}
+        role="dialog"
+        aria-modal="true"
+        className={`bg-surface text-ink border border-line shadow-2xl w-full ${maxWidth} rounded-3xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto relative animate-scale-in`}
         onClick={(e) => e.stopPropagation()}
       >
         <button

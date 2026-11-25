@@ -9,6 +9,7 @@ import About from './pages/About'
 import Library from './pages/Library'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import PaymentCallback from './pages/PaymentCallback'
 import NotFound from './pages/NotFound'
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="/licensing" element={<Licensing />} />
         <Route path="/about" element={<About />} />
         <Route path="/library" element={<Library />} />
+        <Route path="/payment/callback" element={<PaymentCallback />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

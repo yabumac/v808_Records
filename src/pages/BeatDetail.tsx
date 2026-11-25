@@ -39,7 +39,7 @@ export default function BeatDetail() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
         <div className="relative aspect-square rounded-3xl overflow-hidden border border-line shadow-2xl shadow-brand/10">
           <img src={beat.cover_url} alt={beat.title} className="w-full h-full object-cover" />
-          <span className="absolute top-4 left-4 bg-black/70 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-mono font-bold text-brand">
+          <span className="absolute top-4 left-4 bg-black/75 backdrop-blur px-3 py-1 rounded-lg text-[10px] font-mono font-bold text-white dark:text-brand">
             {beat.genre}
           </span>
         </div>

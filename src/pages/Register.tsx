@@ -1,25 +1,36 @@
 import { useState, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { UserPlus } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { ShieldCheck, UserPlus } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import { isSupabaseConfigured } from '../lib/supabase'
+import GoogleButton from '../components/GoogleButton'
 
 export default function Register() {
   const { signUp } = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [notice, setNotice] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+
+  const from = (location.state as { from?: string } | null)?.from ?? '/catalog'
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setBusy(true)
     setError(null)
+    setNotice(null)
     const { error } = await signUp(email, password, fullName)
     setBusy(false)
-    if (error) setError(error)
-    else navigate('/', { replace: true })
+    if (error) {
+      setError(error)
+    } else {
+      setNotice('Account created! Check your inbox to verify your email, or continue if auto-confirmed.')
+      setTimeout(() => navigate(from, { replace: true }), 1200)
+    }
   }
 
   return (
@@ -32,11 +43,21 @@ export default function Register() {
             className="w-16 h-16 rounded-2xl object-cover shadow-lg border border-line/60"
           />
           <div className="text-center">
-            <h2 className="text-2xl font-display font-extrabold uppercase tracking-tight">
+            <h2 className="text-2xl font-display font-extrabold uppercase tracking-tight text-ink">
               Create account
             </h2>
-            <p className="text-xs text-muted">Track purchases and licenses in one place</p>
+            <p className="text-xs text-muted">
+              Required to buy licenses, sync downloads & protect receipts
+            </p>
           </div>
+        </div>
+
+        <GoogleButton redirectPath={from} onError={setError} />
+
+        <div className="relative my-5 flex items-center">
+          <div className="flex-1 border-t border-line" />
+          <span className="px-3 text-[11px] font-mono uppercase text-muted">or sign up with email</span>
+          <div className="flex-1 border-t border-line" />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -46,6 +67,8 @@ export default function Register() {
             </label>
             <input
               className="input"
+              required
+              autoComplete="name"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="e.g. Young Producer"
@@ -57,6 +80,7 @@ export default function Register() {
               className="input"
               type="email"
               required
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@email.com"
@@ -68,16 +92,33 @@ export default function Register() {
               className="input"
               type="password"
               required
-              minLength={6}
+              minLength={8}
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 6 characters"
+              placeholder="At least 8 characters"
             />
           </div>
 
           {error && (
-            <p className="text-xs text-brand bg-brand/10 border border-brand/30 rounded-xl px-3 py-2">
+            <p className="text-xs text-rose-600 dark:text-rose-400 bg-rose-500/10 border border-rose-500/30 rounded-xl px-3 py-2">
               {error}
+            </p>
+          )}
+
+          {notice && (
+            <p className="text-xs text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 rounded-xl px-3 py-2">
+              {notice}
+            </p>
+          )}
+
+          {!isSupabaseConfigured && (
+            <p className="text-[11px] text-amber-700 dark:text-amber-300 bg-amber-500/10 border border-amber-500/30 rounded-xl px-3 py-2 flex items-start gap-2">
+              <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5" />
+              <span>
+                Live account creation requires <code>VITE_SUPABASE_URL</code> and{' '}
+                <code>VITE_SUPABASE_ANON_KEY</code>.
+              </span>
             </p>
           )}
 
@@ -88,7 +129,7 @@ export default function Register() {
 
         <p className="text-xs text-muted text-center mt-5">
           Already have an account?{' '}
-          <Link to="/login" className="text-brand hover:underline">
+          <Link to="/login" state={{ from }} className="text-brand font-semibold hover:underline">
             Sign in
           </Link>
         </p>

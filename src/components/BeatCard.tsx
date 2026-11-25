@@ -31,7 +31,7 @@ export default function BeatCard({ beat, onBuy }: BeatCardProps) {
               {isCurrent ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-current" />}
             </button>
           </div>
-          <span className="absolute top-3 left-3 bg-black/70 backdrop-blur px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold text-brand">
+          <span className="absolute top-3 left-3 bg-black/75 backdrop-blur px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold text-white dark:text-brand">
             {beat.genre}
           </span>
         </div>

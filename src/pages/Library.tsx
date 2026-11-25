@@ -9,11 +9,11 @@ export default function Library() {
 
   return (
     <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in">
-      <h2 className="text-3xl font-display font-extrabold uppercase tracking-tight">
+      <h2 className="text-3xl font-display font-extrabold uppercase tracking-tight text-ink">
         My <span className="text-brand">audio library</span>
       </h2>
       <p className="text-xs text-muted mb-8">
-        Access your bought WAVs, stem archives and auto-generated licenses.
+        Access your bought audio files and verified Beat License certificates.
       </p>
 
       {!user && (
@@ -44,7 +44,7 @@ export default function Library() {
           {purchased.map((item) => (
             <div
               key={item.id}
-              className="glass-card p-4 rounded-xl flex items-center justify-between gap-4 border border-line"
+              className="bg-card p-4 rounded-xl flex items-center justify-between gap-4 border border-line"
             >
               <div className="flex items-center gap-3 min-w-0">
                 <img
@@ -64,7 +64,7 @@ export default function Library() {
                 download
                 className="px-3 py-1.5 rounded-lg bg-brand text-white text-xs font-bold flex items-center gap-1 shrink-0"
               >
-                <Download className="w-3.5 h-3.5" /> WAV
+                <Download className="w-3.5 h-3.5" /> Download
               </a>
             </div>
           ))}

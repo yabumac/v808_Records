@@ -87,7 +87,7 @@ export default function Catalog() {
             />
           </div>
           <select
-            className="px-3 py-2 rounded-xl bg-card border border-line text-xs text-ink focus:outline-none focus:border-brand"
+            className="px-3 py-2 rounded-xl bg-card border border-line text-xs text-ink focus:outline-none focus:border-brand [&>option]:bg-card [&>option]:text-ink"
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
           >
