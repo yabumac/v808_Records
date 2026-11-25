@@ -6,6 +6,7 @@ import { usePlayer } from '../context/PlayerContext'
 import { STUDIO_SERVICES } from '../lib/seed'
 import BeatCard from '../components/BeatCard'
 import CheckoutModal from '../components/CheckoutModal'
+import ReminisceSection from '../components/ReminisceSection'
 import type { Beat } from '../types'
 
 export default function Home() {
@@ -105,6 +106,11 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      {/* ============ Cultural EP Listening Party ============ */}
+      <div className="border-t border-line/40">
+        <ReminisceSection showFullRoomLink />
+      </div>
 
       {/* ============ Studio Services ============ */}
       <section className="border-t border-line/40 bg-surface/40">

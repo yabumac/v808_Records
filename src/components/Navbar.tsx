@@ -18,6 +18,7 @@ import { useCatalog } from '../context/CatalogContext'
 
 const links = [
   { to: '/catalog', label: 'Catalog' },
+  { to: '/listening-party', label: 'Reminisce EP' },
   { to: '/services', label: 'Services' },
   { to: '/licensing', label: 'Licensing' },
   { to: '/about', label: 'About Me' },
@@ -53,7 +54,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 lg:gap-8 font-medium text-sm">
+        <nav className="hidden md:flex items-center gap-4 lg:gap-6 xl:gap-8 font-medium text-sm">
           {links.map((l) => (
             <NavLink key={l.to} to={l.to} className={navClass}>
               {l.label}

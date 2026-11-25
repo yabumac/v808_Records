@@ -40,6 +40,7 @@ export default function Services() {
   const { beats } = useCatalog()
 
   const initialParam = params.get('service') as ServiceType | null
+  const refParam = params.get('ref')
   const [selected, setSelected] = useState<ServiceType>(
     STUDIO_SERVICES.some((s) => s.id === initialParam) ? (initialParam as ServiceType) : 'custom_production',
   )
@@ -47,7 +48,9 @@ export default function Services() {
   const [artistName, setArtistName] = useState('')
   const [email, setEmail] = useState('')
   const [contactHandle, setContactHandle] = useState('')
-  const [projectTitle, setProjectTitle] = useState('')
+  const [projectTitle, setProjectTitle] = useState(
+    refParam === 'reminisce-ep' ? 'Custom Cultural Score / Production (Reminisce EP style)' : '',
+  )
   const [beatId, setBeatId] = useState('')
   const [referenceUrl, setReferenceUrl] = useState('')
   const [preferredSchedule, setPreferredSchedule] = useState('')

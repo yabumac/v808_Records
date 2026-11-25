@@ -90,6 +90,12 @@ export default function About() {
                 1-on-1 &amp; Mixing Services
               </Link>
               <Link
+                to="/listening-party"
+                className="text-sm text-muted hover:text-copper-ink underline underline-offset-4"
+              >
+                Reminisce EP
+              </Link>
+              <Link
                 to="/licensing"
                 className="text-sm text-muted hover:text-copper-ink underline underline-offset-4"
               >

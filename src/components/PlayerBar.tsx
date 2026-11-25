@@ -1,4 +1,4 @@
-import { Pause, Play, Volume2 } from 'lucide-react'
+import { Pause, Play, SkipBack, SkipForward, Volume2 } from 'lucide-react'
 import { usePlayer } from '../context/PlayerContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -10,7 +10,19 @@ function fmt(s: number) {
 }
 
 export default function PlayerBar() {
-  const { current, isPlaying, currentTime, duration, volume, toggle, seek, setVolume } = usePlayer()
+  const {
+    current,
+    queue,
+    isPlaying,
+    currentTime,
+    duration,
+    volume,
+    toggle,
+    nextTrack,
+    prevTrack,
+    seek,
+    setVolume,
+  } = usePlayer()
   const navigate = useNavigate()
 
   const progress = duration ? currentTime / duration : 0
@@ -31,20 +43,40 @@ export default function PlayerBar() {
           <div className="flex items-center gap-2 text-xs text-muted">
             <span>{current.bpm} BPM</span> • <span>{current.key_root}</span>
             <span className="bg-copper/15 text-copper-ink border border-copper/30 text-[9px] px-1.5 py-0.5 rounded font-mono font-bold">
-              PREVIEW
+              {current.showcaseOnly ? 'LISTENING PARTY' : 'PREVIEW'}
             </span>
           </div>
         </div>
       </div>
 
       <div className="flex-1 w-full max-w-xl flex flex-col items-center gap-1.5">
-        <button
-          onClick={toggle}
-          className="w-10 h-10 rounded-full bg-brand text-btn flex items-center justify-center shadow-lg shadow-brand/30 hover:scale-105 transition-transform"
-          aria-label={isPlaying ? 'Pause' : 'Play'}
-        >
-          {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-current" />}
-        </button>
+        <div className="flex items-center gap-3">
+          {queue.length > 1 && (
+            <button
+              onClick={prevTrack}
+              className="p-1.5 rounded-lg text-muted hover:text-ink transition-colors"
+              aria-label="Previous track"
+            >
+              <SkipBack className="w-4 h-4" />
+            </button>
+          )}
+          <button
+            onClick={toggle}
+            className="w-10 h-10 rounded-full bg-brand text-btn flex items-center justify-center shadow-lg shadow-brand/30 hover:scale-105 transition-transform"
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+          >
+            {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-current" />}
+          </button>
+          {queue.length > 1 && (
+            <button
+              onClick={nextTrack}
+              className="p-1.5 rounded-lg text-muted hover:text-ink transition-colors"
+              aria-label="Next track"
+            >
+              <SkipForward className="w-4 h-4" />
+            </button>
+          )}
+        </div>
 
         <div
           className="w-full flex items-center gap-1 h-8 cursor-pointer"
@@ -83,12 +115,21 @@ export default function PlayerBar() {
           onChange={(e) => setVolume(Number(e.target.value))}
           className="w-20 accent-brand"
         />
-        <button
-          onClick={() => navigate(`/beat/${current.id}`)}
-          className="px-4 py-2 rounded-xl bg-brand hover:bg-brand-hover text-btn text-xs font-bold shadow-lg transition-all"
-        >
-          Buy License (${current.price})
-        </button>
+        {current.showcaseOnly ? (
+          <button
+            onClick={() => navigate('/services?service=custom_production&ref=reminisce-ep')}
+            className="px-4 py-2 rounded-xl bg-brand hover:bg-brand-hover text-btn text-xs font-bold shadow-lg transition-all whitespace-nowrap"
+          >
+            Inquire for Score
+          </button>
+        ) : (
+          <button
+            onClick={() => navigate(`/beat/${current.id}`)}
+            className="px-4 py-2 rounded-xl bg-brand hover:bg-brand-hover text-btn text-xs font-bold shadow-lg transition-all whitespace-nowrap"
+          >
+            Buy License (${current.price})
+          </button>
+        )}
       </div>
     </div>
   )

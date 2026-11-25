@@ -50,9 +50,24 @@ export interface Beat {
   has_midi?: boolean
   stems_url?: string
   midi_url?: string
+  showcaseOnly?: boolean
+  artist?: string
+  album?: string
+  trackNumber?: number
   is_published: boolean
   owner_id?: string | null
   created_at: string
+}
+
+export interface EpRelease {
+  title: string
+  artist: string
+  genre: string
+  origin: string
+  channel: string
+  released: string
+  coverUrl: string
+  subtitle: string
 }
 
 export interface License {
