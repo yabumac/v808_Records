@@ -18,6 +18,7 @@ import { useCatalog } from '../context/CatalogContext'
 
 const links = [
   { to: '/catalog', label: 'Catalog' },
+  { to: '/services', label: 'Services' },
   { to: '/licensing', label: 'Licensing' },
   { to: '/about', label: 'About Me' },
 ]

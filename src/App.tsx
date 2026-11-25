@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Catalog from './pages/Catalog'
 import BeatDetail from './pages/BeatDetail'
 import Licensing from './pages/Licensing'
+import Services from './pages/Services'
 import About from './pages/About'
 import Library from './pages/Library'
 import Login from './pages/Login'
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/catalog" element={<Catalog />} />
         <Route path="/beat/:id" element={<BeatDetail />} />
         <Route path="/licensing" element={<Licensing />} />
+        <Route path="/services" element={<Services />} />
         <Route path="/about" element={<About />} />
         <Route path="/library" element={<Library />} />
         <Route path="/payment/callback" element={<PaymentCallback />} />

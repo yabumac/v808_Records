@@ -2,6 +2,38 @@ export type LicenseTier = 'basic' | 'premium' | 'exclusive'
 
 export type PaymentProvider = 'chapa' | 'telebirr' | 'cbe' | 'stripe_card' | 'paypal'
 
+export type ServiceType =
+  | 'custom_production'
+  | 'beat_customization'
+  | 'on_call_session'
+  | 'mixing_mastering'
+
+export interface StudioService {
+  id: ServiceType
+  title: string
+  badge: string
+  priceLabel: string
+  turnaround: string
+  summary: string
+  deliverables: string[]
+}
+
+export interface ServiceBooking {
+  id: string
+  booking_code: string
+  service_type: ServiceType
+  artist_name: string
+  email: string
+  contact_handle: string
+  project_title: string
+  beat_id?: string
+  reference_url?: string
+  preferred_schedule?: string
+  notes: string
+  status: 'new' | 'scheduled' | 'in_progress' | 'completed'
+  created_at: string
+}
+
 export interface Beat {
   id: string
   title: string

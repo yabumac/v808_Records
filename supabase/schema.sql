@@ -190,13 +190,37 @@ create table if not exists public.audit_logs (
 create index if not exists audit_logs_created_idx on public.audit_logs (created_at desc);
 
 -- ---------------------------------------------------------------------------
+-- Studio Service Requests (1-on-1 production, customization, on-call, mixing)
+-- ---------------------------------------------------------------------------
+create table if not exists public.service_requests (
+  id                 uuid primary key default gen_random_uuid(),
+  booking_code       text not null unique,
+  user_id            uuid references public.profiles (id) on delete set null,
+  service_type       text not null check (service_type in ('custom_production', 'beat_customization', 'on_call_session', 'mixing_mastering')),
+  artist_name        text not null,
+  email              text not null,
+  contact_handle     text not null,
+  project_title      text not null,
+  beat_id            text,
+  reference_url      text,
+  preferred_schedule text,
+  notes              text not null,
+  status             text not null default 'new' check (status in ('new', 'scheduled', 'in_progress', 'completed')),
+  created_at         timestamptz not null default now()
+);
+
+create index if not exists service_requests_user_idx on public.service_requests (user_id);
+create index if not exists service_requests_created_idx on public.service_requests (created_at desc);
+
+-- ---------------------------------------------------------------------------
 -- Row Level Security (Zero client-side license forgery)
 -- ---------------------------------------------------------------------------
 alter table public.profiles       enable row level security;
 alter table public.beats          enable row level security;
 alter table public.payment_orders enable row level security;
-alter table public.licenses       enable row level security;
-alter table public.audit_logs     enable row level security;
+alter table public.licenses         enable row level security;
+alter table public.audit_logs       enable row level security;
+alter table public.service_requests enable row level security;
 
 -- Profiles: users read/update only their own profile; admins read all.
 drop policy if exists "profiles are public read" on public.profiles;
@@ -234,6 +258,11 @@ create policy "licenses readable by owner or admin"
 drop policy if exists "audit logs readable by admin" on public.audit_logs;
 create policy "audit logs readable by admin"
   on public.audit_logs for select using (public.is_admin());
+
+-- Service requests: owner or admin read; service_role writes via hardened API.
+drop policy if exists "service requests readable by owner or admin" on public.service_requests;
+create policy "service requests readable by owner or admin"
+  on public.service_requests for select using (auth.uid() = user_id or public.is_admin());
 
 -- ---------------------------------------------------------------------------
 -- Storage buckets (Public covers & tagged previews; private stems/MIDI; admin-only writes)

@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Music2, Pause, Play, Quote, Share2 } from 'lucide-react'
+import { ArrowRight, Music2, Pause, Play, Quote, Share2 } from 'lucide-react'
 import { useCatalog } from '../context/CatalogContext'
 import { usePlayer } from '../context/PlayerContext'
+import { STUDIO_SERVICES } from '../lib/seed'
 import BeatCard from '../components/BeatCard'
 import CheckoutModal from '../components/CheckoutModal'
 import type { Beat } from '../types'
@@ -102,6 +103,57 @@ export default function Home() {
           <Link to="/catalog" className="btn-ghost px-8 py-3.5">
             Browse full catalog
           </Link>
+        </div>
+      </section>
+
+      {/* ============ Studio Services ============ */}
+      <section className="border-t border-line/40 bg-surface/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+              <span className="font-mono text-xs text-copper-ink uppercase font-bold tracking-wider">
+                1-on-1 studio sessions &amp; audio engineering
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-display font-extrabold uppercase tracking-tight mt-1">
+                Custom <span className="text-copper">studio services</span>
+              </h2>
+              <p className="text-muted text-sm mt-1 max-w-2xl">
+                Need a beat built from scratch, an arrangement customized around your vocals, a live
+                on-call session, or -14 LUFS mixing &amp; mastering? Book directly with the studio.
+              </p>
+            </div>
+            <Link to="/services" className="btn-primary px-6 py-3 text-xs shrink-0">
+              Explore services &amp; book <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {STUDIO_SERVICES.map((svc) => (
+              <Link
+                key={svc.id}
+                to={`/services?service=${svc.id}`}
+                className="glass rounded-2xl p-5 border border-line card-hover flex flex-col justify-between group"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-copper-ink">
+                      {svc.badge}
+                    </span>
+                    <span className="text-xs font-extrabold text-ink">{svc.priceLabel}</span>
+                  </div>
+                  <h3 className="font-bold text-ink text-base group-hover:text-copper-ink transition-colors">
+                    {svc.title}
+                  </h3>
+                  <p className="text-xs text-muted mt-2 leading-relaxed line-clamp-3">
+                    {svc.summary}
+                  </p>
+                </div>
+                <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-copper-ink group-hover:gap-2.5 transition-all">
+                  Book session <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

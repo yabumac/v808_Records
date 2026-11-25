@@ -1,4 +1,4 @@
-import type { Beat, LicenseTier, PaymentProvider, Tier } from '../types'
+import type { Beat, LicenseTier, PaymentProvider, StudioService, Tier } from '../types'
 
 const baseTime = Date.UTC(2026, 0, 10)
 
@@ -293,3 +293,67 @@ export const PAYMENT_METHODS: PaymentMethodMeta[] = [
     badge: 'GLOBAL',
   },
 ]
+
+export const STUDIO_SERVICES: StudioService[] = [
+  {
+    id: 'custom_production',
+    title: '1-on-1 Custom Beat Production',
+    badge: 'BUILT FROM SCRATCH',
+    priceLabel: 'From $149',
+    turnaround: '3–5 days',
+    summary:
+      'Work directly 1-on-1 with Yabsera (@Yabuonthebeat) to craft an original instrumental tailored to your vocal pocket, tempo, and reference mood.',
+    deliverables: [
+      'Original composition built around your references',
+      '24-bit WAV master + tracked-out audio stems & MIDI',
+      'Up to 3 revision rounds included',
+      'Custom licensing / exclusive buyout options',
+    ],
+  },
+  {
+    id: 'beat_customization',
+    title: 'Beat Customization & Arrangement',
+    badge: 'VAULT RE-WORK',
+    priceLabel: 'From $59',
+    turnaround: '24–48 hrs',
+    summary:
+      'Need an existing V808 vault beat reshaped for your song? Extend hooks, add beat switches, shift BPM/key, or carve space for your verse.',
+    deliverables: [
+      'Custom song structure (intro, hook, verse, bridge)',
+      'Tempo/key pitch-lock & drum pocket tweaks',
+      'Clean drop-outs, transitions & tag placement',
+      'Updated untagged master bounce',
+    ],
+  },
+  {
+    id: 'on_call_session',
+    title: 'On-Call Live Production Session',
+    badge: 'LIVE STUDIO CALL',
+    priceLabel: '$45 / hr',
+    turnaround: 'Scheduled call',
+    summary:
+      'Jump on a live Zoom, Discord, or Google Meet session while we cook up beats, dial in arrangements, or fix vocal/mix issues in real time.',
+    deliverables: [
+      'Live screen-share & high-quality studio audio stream',
+      'Real-time beat making, sound selection & arrangement',
+      'Vocal pocket & cadence coaching on your demo',
+      'Session bounce exported right after the call',
+    ],
+  },
+  {
+    id: 'mixing_mastering',
+    title: 'Vocal Mixing & -14 LUFS Mastering',
+    badge: 'RELEASE READY',
+    priceLabel: 'From $75',
+    turnaround: '48–72 hrs',
+    summary:
+      'Send your raw vocal takes and beat — get punchy radio-ready clarity, warm analog saturation, stereo depth, and streaming-safe mastering.',
+    deliverables: [
+      'Vocal cleanup, pitch polish, EQ, compression & FX throws',
+      '2-track beat integration or full stem mixdown',
+      'Mastered to -14 LUFS for Spotify, Apple Music & YouTube',
+      'Main + Instrumental + Acapella / TV Track bounces',
+    ],
+  },
+]
+

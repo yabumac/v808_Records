@@ -84,6 +84,12 @@ export default function About() {
                 <Music2 className="w-5 h-5" /> Explore my catalog
               </Link>
               <Link
+                to="/services"
+                className="btn-primary px-6 py-3.5 text-sm"
+              >
+                1-on-1 &amp; Mixing Services
+              </Link>
+              <Link
                 to="/licensing"
                 className="text-sm text-muted hover:text-copper-ink underline underline-offset-4"
               >
