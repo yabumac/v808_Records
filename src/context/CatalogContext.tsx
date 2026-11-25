@@ -31,7 +31,7 @@ interface CatalogContextValue {
 
 const CatalogContext = createContext<CatalogContextValue | undefined>(undefined)
 
-const LOCAL_BEATS = 'v808-beats'
+const LOCAL_BEATS = 'v808-beats-v2'
 const LOCAL_LICENSES = 'v808-licenses'
 
 function readLocal<T>(key: string, fallback: T): T {

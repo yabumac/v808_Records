@@ -1,5 +1,4 @@
 import {
-  Disc3,
   LogIn,
   LogOut,
   Menu,
@@ -20,7 +19,7 @@ import { useCatalog } from '../context/CatalogContext'
 const links = [
   { to: '/catalog', label: 'Catalog' },
   { to: '/licensing', label: 'Licensing' },
-  { to: '/about', label: 'Producer Bio' },
+  { to: '/about', label: 'About Me' },
 ]
 
 export default function Navbar() {
@@ -30,15 +29,17 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   const navClass = ({ isActive }: { isActive: boolean }) =>
-    `transition-colors hover:text-brand ${isActive ? 'text-brand' : 'text-ink/80'}`
+    `whitespace-nowrap transition-colors hover:text-brand ${isActive ? 'text-brand' : 'text-ink/80'}`
 
   return (
     <header className="sticky top-0 z-40 w-full glass border-b border-line/60">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand via-accent to-brand flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-            <Disc3 className="w-6 h-6 text-white" />
-          </div>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+        <Link to="/" className="flex items-center gap-3 group shrink-0">
+          <img
+            src="/logo.jpg"
+            alt="V808 Records logo"
+            className="w-11 h-11 rounded-xl object-cover shadow-md border border-line/60 group-hover:scale-105 transition-transform shrink-0"
+          />
           <div>
             <span className="font-display font-extrabold text-2xl tracking-wide text-ink">
               V808<span className="text-brand">RECORDS</span>
@@ -49,7 +50,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 font-medium text-sm">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8 font-medium text-sm">
           {links.map((l) => (
             <NavLink key={l.to} to={l.to} className={navClass}>
               {l.label}
@@ -107,14 +108,14 @@ export default function Navbar() {
           ) : (
             <Link
               to="/login"
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-line bg-card text-sm font-semibold text-ink hover:border-brand/60"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-line bg-card text-sm font-semibold text-ink hover:border-brand/60 whitespace-nowrap shrink-0"
             >
               <LogIn className="w-4 h-4" />
               Sign in
             </Link>
           )}
 
-          <Link to="/catalog" className="hidden md:inline-flex btn-primary px-5 py-2.5 text-sm">
+          <Link to="/catalog" className="hidden md:inline-flex btn-primary px-5 py-2.5 text-sm whitespace-nowrap shrink-0">
             <Music2 className="w-4 h-4" /> Browse beats
           </Link>
 

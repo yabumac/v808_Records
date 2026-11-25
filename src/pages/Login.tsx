@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Disc3, LogIn } from 'lucide-react'
+import { LogIn } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
@@ -28,9 +28,11 @@ export default function Login() {
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-md glass rounded-3xl border border-line p-8 animate-scale-in">
         <div className="flex flex-col items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-brand to-accent flex items-center justify-center shadow-lg">
-            <Disc3 className="w-7 h-7 text-white" />
-          </div>
+          <img
+            src="/logo.jpg"
+            alt="V808 Records"
+            className="w-16 h-16 rounded-2xl object-cover shadow-lg border border-line/60"
+          />
           <div className="text-center">
             <h2 className="text-2xl font-display font-extrabold uppercase tracking-tight">
               Welcome back
