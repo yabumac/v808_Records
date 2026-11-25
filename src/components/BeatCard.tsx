@@ -25,13 +25,13 @@ export default function BeatCard({ beat, onBuy }: BeatCardProps) {
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
             <button
               onClick={() => play(beat)}
-              className="w-12 h-12 rounded-full bg-brand text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
+              className="w-12 h-12 rounded-full bg-brand text-btn flex items-center justify-center shadow-xl hover:scale-110 transition-transform"
               aria-label={isCurrent ? 'Pause' : 'Play'}
             >
               {isCurrent ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-current" />}
             </button>
           </div>
-          <span className="absolute top-3 left-3 bg-black/75 backdrop-blur px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold text-white dark:text-brand">
+          <span className="absolute top-3 left-3 bg-black/80 backdrop-blur px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold text-copper border border-copper/25">
             {beat.genre}
           </span>
         </div>
@@ -62,7 +62,7 @@ export default function BeatCard({ beat, onBuy }: BeatCardProps) {
         </button>
         <button
           onClick={() => onBuy(beat)}
-          className="flex-1 py-2 rounded-xl bg-brand hover:bg-brand-hover text-white text-xs font-bold shadow-lg shadow-brand/20 transition-all flex items-center justify-center gap-1.5"
+          className="flex-1 py-2 rounded-xl bg-brand hover:bg-brand-hover text-btn text-xs font-bold shadow-lg shadow-brand/20 transition-all flex items-center justify-center gap-1.5"
         >
           <ShoppingCart className="w-3.5 h-3.5" /> Buy / License
         </button>

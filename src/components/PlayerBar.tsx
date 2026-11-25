@@ -30,7 +30,7 @@ export default function PlayerBar() {
           <h4 className="text-sm font-bold text-ink truncate">{current.title}</h4>
           <div className="flex items-center gap-2 text-xs text-muted">
             <span>{current.bpm} BPM</span> • <span>{current.key_root}</span>
-            <span className="bg-brand/20 text-brand text-[9px] px-1.5 py-0.5 rounded font-mono font-bold">
+            <span className="bg-copper/15 text-copper-ink border border-copper/30 text-[9px] px-1.5 py-0.5 rounded font-mono font-bold">
               PREVIEW
             </span>
           </div>
@@ -40,7 +40,7 @@ export default function PlayerBar() {
       <div className="flex-1 w-full max-w-xl flex flex-col items-center gap-1.5">
         <button
           onClick={toggle}
-          className="w-10 h-10 rounded-full bg-brand text-white flex items-center justify-center shadow-lg shadow-brand/30 hover:scale-105 transition-transform"
+          className="w-10 h-10 rounded-full bg-brand text-btn flex items-center justify-center shadow-lg shadow-brand/30 hover:scale-105 transition-transform"
           aria-label={isPlaying ? 'Pause' : 'Play'}
         >
           {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-current" />}
@@ -85,7 +85,7 @@ export default function PlayerBar() {
         />
         <button
           onClick={() => navigate(`/beat/${current.id}`)}
-          className="px-4 py-2 rounded-xl bg-brand hover:bg-brand-hover text-white text-xs font-bold shadow-lg transition-all"
+          className="px-4 py-2 rounded-xl bg-brand hover:bg-brand-hover text-btn text-xs font-bold shadow-lg transition-all"
         >
           Buy License (${current.price})
         </button>

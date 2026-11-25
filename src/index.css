@@ -15,6 +15,9 @@
     --c-muted: 106 106 122;
     --c-brand: 18 18 26;
     --c-brand-hover: 40 40 56;
+    --c-btn-text: 223 116 41;
+    --c-copper: 223 116 41;
+    --c-copper-ink: 194 90 20;
     --c-accent: 249 92 143;
     --c-neon1: 64 138 255;
     --c-neon2: 255 69 155;
@@ -32,7 +35,10 @@
     --c-muted: 140 140 162;
     --c-brand: 168 85 247;
     --c-brand-hover: 147 63 226;
-    --c-accent: 157 78 221;
+    --c-btn-text: 255 255 255;
+    --c-copper: 223 116 41;
+    --c-copper-ink: 223 116 41;
+    --c-accent: 223 116 41;
     --c-neon1: 120 92 255;
     --c-neon2: 255 26 120;
     --c-neon3: 255 148 64;
@@ -48,7 +54,7 @@
   }
 
   ::selection {
-    @apply bg-brand text-white;
+    @apply bg-copper text-white;
   }
 
   ::-webkit-scrollbar {
@@ -78,13 +84,13 @@
     @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all active:scale-95;
   }
   .btn-primary {
-    @apply btn bg-brand text-white hover:bg-brand-hover shadow-lg shadow-brand/25;
+    @apply btn bg-brand text-btn hover:bg-brand-hover shadow-lg shadow-brand/25;
   }
   .btn-ghost {
-    @apply btn bg-card text-ink hover:bg-line border border-line;
+    @apply btn bg-card text-ink hover:bg-line hover:border-copper/40 border border-line;
   }
   .btn-outline {
-    @apply btn border-2 border-brand text-brand hover:bg-brand hover:text-white;
+    @apply btn border-2 border-brand text-brand hover:bg-brand hover:text-btn;
   }
   .input {
     @apply w-full rounded-xl bg-card border border-line px-4 py-2.5 text-sm text-ink placeholder:text-muted/70 outline-none transition-colors focus:border-brand;

@@ -9,7 +9,7 @@ export default function Licensing() {
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 animate-fade-in">
       <div className="text-center max-w-3xl mx-auto mb-12">
         <h2 className="text-3xl sm:text-4xl font-display font-extrabold uppercase tracking-tight text-ink">
-          Transparent <span className="text-brand">licensing tiers</span>
+          Transparent <span className="text-copper">licensing tiers</span>
         </h2>
         <p className="text-muted text-sm mt-2">
           Get instant access to untagged audio files and legally binding license contracts
@@ -28,7 +28,7 @@ export default function Licensing() {
         {tiers.map((tier) => {
           const availability = isTierAvailableForBeat(tier.id)
           const available = availability.available
-          const IconColor = tier.id === 'exclusive' ? 'text-accent' : 'text-brand'
+          const IconColor = tier.id === 'exclusive' ? 'text-copper-ink' : 'text-brand'
 
           return (
             <div
@@ -76,7 +76,7 @@ export default function Licensing() {
               {available ? (
                 <Link
                   to="/catalog"
-                  className="w-full py-3 rounded-xl text-xs font-bold text-center transition-all bg-brand hover:bg-brand-hover text-white shadow-lg"
+                  className="w-full py-3 rounded-xl text-xs font-bold text-center transition-all bg-brand hover:bg-brand-hover text-btn shadow-lg"
                 >
                   Select beat
                 </Link>

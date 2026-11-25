@@ -167,7 +167,7 @@ export default function CheckoutModal({ beat, onClose }: CheckoutModalProps) {
           className="w-16 h-16 rounded-xl object-cover border border-line shrink-0"
         />
         <div className="min-w-0">
-          <span className="text-xs font-mono text-brand uppercase font-bold">
+          <span className="text-xs font-mono text-copper-ink uppercase font-bold">
             Secure Beat Checkout
           </span>
           <h3 className="text-2xl font-bold text-ink truncate">{beat.title}</h3>
@@ -453,7 +453,7 @@ export default function CheckoutModal({ beat, onClose }: CheckoutModalProps) {
               type="button"
               onClick={handleCheckout}
               disabled={busy}
-              className="w-full sm:w-auto px-7 py-4 rounded-xl bg-brand hover:bg-brand-hover text-white font-bold text-sm shadow-xl shadow-brand/30 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full sm:w-auto px-7 py-4 rounded-xl bg-brand hover:bg-brand-hover text-btn font-bold text-sm shadow-xl shadow-brand/30 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
             >
               <Lock className="w-4 h-4" />
               {busy ? 'Connecting securely…' : `Pay with ${selectedMethod.label}`}

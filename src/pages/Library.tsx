@@ -62,7 +62,7 @@ export default function Library() {
               <a
                 href={item.beat?.audio_url}
                 download
-                className="px-3 py-1.5 rounded-lg bg-brand text-white text-xs font-bold flex items-center gap-1 shrink-0"
+                className="px-3 py-1.5 rounded-lg bg-brand text-btn text-xs font-bold flex items-center gap-1 shrink-0"
               >
                 <Download className="w-3.5 h-3.5" /> Download
               </a>

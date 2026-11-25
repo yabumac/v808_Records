@@ -15,6 +15,11 @@ export default {
           DEFAULT: 'rgb(var(--c-brand) / <alpha-value>)',
           hover: 'rgb(var(--c-brand-hover) / <alpha-value>)',
         },
+        btn: 'rgb(var(--c-btn-text) / <alpha-value>)',
+        copper: {
+          DEFAULT: 'rgb(var(--c-copper) / <alpha-value>)',
+          ink: 'rgb(var(--c-copper-ink) / <alpha-value>)',
+        },
         accent: 'rgb(var(--c-accent) / <alpha-value>)',
         neon: {
           blue: 'rgb(var(--c-neon1) / <alpha-value>)',

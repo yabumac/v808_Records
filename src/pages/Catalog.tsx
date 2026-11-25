@@ -59,7 +59,7 @@ export default function Catalog() {
           <p className="text-muted text-sm mt-1">Filter by genre, tempo, key or mood.</p>
         </div>
         <p className="text-xs text-muted font-mono">
-          SHOWING <span className="text-brand font-bold">{filtered.length}</span> TRACKS
+          SHOWING <span className="text-copper-ink font-bold">{filtered.length}</span> TRACKS
         </p>
       </div>
 
@@ -69,7 +69,7 @@ export default function Catalog() {
             <button
               key={g}
               onClick={() => setGenre(g)}
-              className={`chip whitespace-nowrap ${g === genre ? 'bg-brand text-white' : 'bg-card hover:bg-line text-muted'}`}
+              className={`chip whitespace-nowrap ${g === genre ? 'bg-brand text-btn' : 'bg-card hover:bg-line text-muted'}`}
             >
               {g}
             </button>

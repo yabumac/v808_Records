@@ -29,7 +29,9 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
 
   const navClass = ({ isActive }: { isActive: boolean }) =>
-    `whitespace-nowrap transition-colors hover:text-brand ${isActive ? 'text-brand' : 'text-ink/80'}`
+    `whitespace-nowrap transition-colors hover:text-copper-ink ${
+      isActive ? 'text-copper-ink font-semibold' : 'text-ink/80'
+    }`
 
   return (
     <header className="sticky top-0 z-40 w-full glass border-b border-line/60">
@@ -42,7 +44,7 @@ export default function Navbar() {
           />
           <div>
             <span className="font-display font-extrabold text-2xl tracking-wide text-ink">
-              V808<span className="text-brand">RECORDS</span>
+              V808<span className="text-copper">RECORDS</span>
             </span>
             <span className="text-[10px] tracking-widest text-muted block font-mono -mt-1">
               SOUNDS BY PRODUCER
@@ -75,7 +77,7 @@ export default function Navbar() {
           >
             <ShoppingBag className="w-5 h-5" />
             {purchased.length > 0 && (
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-brand text-white text-[11px] font-bold rounded-full flex items-center justify-center border-2 border-bg">
+              <span className="absolute -top-1 -right-1 w-5 h-5 bg-copper text-white text-[11px] font-bold rounded-full flex items-center justify-center border-2 border-bg">
                 {purchased.length}
               </span>
             )}

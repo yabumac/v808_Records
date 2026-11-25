@@ -22,12 +22,12 @@ export default function Home() {
         {/* Left content */}
         <div className="flex items-center justify-center lg:justify-end px-6 sm:px-12 lg:pl-16 lg:pr-8 xl:pl-24 xl:pr-10 2xl:pr-14 py-16">
           <div className="w-full max-w-xl animate-fade-in">
-            <p className="text-xs font-mono uppercase tracking-[0.25em] text-brand mb-6">
+            <p className="text-xs font-mono uppercase tracking-[0.25em] text-copper-ink font-semibold mb-6">
               V808 Records · Audio licensing platform
             </p>
             <h1 className="font-serif2 text-5xl sm:text-6xl leading-[1.02] text-ink font-medium">
               Infuse your tracks with life:{' '}
-              <em className="italic text-brand">simply add sound.</em>
+              <em className="italic text-copper">simply add sound.</em>
             </h1>
             <p className="text-muted text-lg mt-6 leading-relaxed">
               Access the studio's hand-curated catalog of mix-ready beats, premium stems and
@@ -37,7 +37,7 @@ export default function Home() {
               <Link to="/catalog" className="btn-primary px-8 py-4 text-sm">
                 <Music2 className="w-5 h-5" /> Browse catalog free
               </Link>
-              <Link to="/licensing" className="text-sm font-semibold text-ink hover:text-brand">
+              <Link to="/licensing" className="text-sm font-semibold text-ink hover:text-copper-ink transition-colors">
                 How licensing works
               </Link>
             </div>
@@ -88,7 +88,7 @@ export default function Home() {
             </p>
           </div>
           <p className="text-xs text-muted font-mono">
-            SHOWING <span className="text-brand font-bold">{published.length}</span> PRODUCER TRACKS
+            SHOWING <span className="text-copper-ink font-bold">{published.length}</span> PRODUCER TRACKS
           </p>
         </div>
 
@@ -157,7 +157,7 @@ function Testimonial({
     >
       <img src={img} alt={name} className="w-10 h-10 rounded-full object-cover shrink-0" loading="lazy" />
       <div>
-        <Quote className="w-4 h-4 text-brand/40 mb-1" />
+        <Quote className="w-4 h-4 text-copper/70 mb-1" />
         <blockquote className="text-sm leading-relaxed text-ink/90">{quote}</blockquote>
         <figcaption className="text-xs mt-1.5 text-muted">
           <span className="font-bold text-ink">{name}</span> · {role}
@@ -222,7 +222,7 @@ function PhoneMockup({ featured }: { featured?: Beat }) {
           </div>
           <button
             onClick={() => nowPlaying && play(nowPlaying)}
-            className="w-10 h-10 rounded-full bg-ink text-bg flex items-center justify-center shrink-0 hover:opacity-90 transition-opacity"
+            className="w-10 h-10 rounded-full bg-[#12121A] text-copper border border-copper/30 flex items-center justify-center shrink-0 hover:scale-105 transition-transform"
             aria-label="Play"
           >
             {current && isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}

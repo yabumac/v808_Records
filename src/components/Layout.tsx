@@ -28,7 +28,7 @@ export default function Layout() {
               <span key={dup} className="flex shrink-0">
                 {tickerItems.map((item) => (
                   <span key={`${dup}-${item}`} className="flex items-center gap-4 px-6">
-                    <span className="text-brand">✦</span>
+                    <span className="text-copper">✦</span>
                     {item}
                   </span>
                 ))}

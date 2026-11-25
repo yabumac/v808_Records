@@ -171,7 +171,7 @@ export default function PaymentCallback() {
             </button>
             <Link
               to="/library"
-              className="px-6 py-3 rounded-xl bg-brand hover:bg-brand-hover text-white text-xs font-bold shadow-lg flex items-center gap-2"
+              className="px-6 py-3 rounded-xl bg-brand hover:bg-brand-hover text-btn text-xs font-bold shadow-lg flex items-center gap-2"
             >
               <Check className="w-4 h-4" /> Go to my library
             </Link>

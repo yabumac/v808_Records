@@ -39,7 +39,7 @@ export default function About() {
       <section className="relative overflow-hidden py-12 lg:py-16 px-4 sm:px-6 lg:px-8 border-b border-line/40">
         {/* Atmospheric glows */}
         <div className="absolute top-1/4 left-10 w-96 h-96 bg-purple-500/15 dark:bg-brand/15 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-neon-pink/15 dark:bg-neon-pink/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-copper/15 dark:bg-copper/15 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><filter id=%22n%22><feTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%222%22/></filter><rect width=%22100%22 height=%22100%22 filter=%22url(%23n)%22 opacity=%220.035%22/></svg>')] opacity-50 dark:opacity-100 pointer-events-none" />
 
         {/* Giant ghost type */}
@@ -66,7 +66,7 @@ export default function About() {
             </p>
 
             <div className="flex items-center gap-3 pt-1">
-              <div className="flex text-purple-600 dark:text-brand">
+              <div className="flex text-copper">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="w-4 h-4 fill-current" />
                 ))}
@@ -85,7 +85,7 @@ export default function About() {
               </Link>
               <Link
                 to="/licensing"
-                className="text-sm text-muted hover:text-purple-700 dark:hover:text-brand underline underline-offset-4"
+                className="text-sm text-muted hover:text-copper-ink underline underline-offset-4"
               >
                 View license pricing
               </Link>
@@ -105,7 +105,7 @@ export default function About() {
           {/* Right rail: studio philosophy & signature sound */}
           <div className="lg:col-span-3 space-y-5">
             <div className="glass p-5 rounded-2xl border border-line card-hover space-y-1.5 shadow-sm dark:shadow-none">
-              <span className="font-mono text-[10px] tracking-[0.25em] text-purple-700 dark:text-brand font-bold uppercase">
+              <span className="font-mono text-[10px] tracking-[0.25em] text-copper-ink font-bold uppercase">
                 Studio Craft
               </span>
               <h2 className="font-bold text-lg leading-tight text-ink">
@@ -120,7 +120,7 @@ export default function About() {
             {featured && (
               <button
                 onClick={() => play(featured)}
-                className="w-full glass p-5 rounded-2xl border border-purple-500/30 dark:border-brand/40 card-hover text-left group shadow-sm dark:shadow-none"
+                className="w-full glass p-5 rounded-2xl border border-copper/35 dark:border-copper/40 card-hover text-left group shadow-sm dark:shadow-none"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <img
@@ -129,7 +129,7 @@ export default function About() {
                     className="w-14 h-14 rounded-xl object-cover border border-line shrink-0"
                   />
                   <div className="min-w-0">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 dark:text-brand font-mono">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-copper-ink font-mono">
                       Signature studio spin
                     </span>
                     <h3 className="font-bold text-ink truncate">{featured.title}</h3>
@@ -141,7 +141,7 @@ export default function About() {
                 <p className="text-xs text-muted mb-3">
                   Tap to audition my current flagship instrumental straight from the studio rack.
                 </p>
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-700 dark:text-brand group-hover:gap-2.5 transition-all">
+                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-copper-ink group-hover:gap-2.5 transition-all">
                   {isFeaturedPlaying ? (
                     <>
                       <Pause className="w-3.5 h-3.5" /> Pause studio preview
@@ -162,12 +162,12 @@ export default function About() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <span className="font-mono text-xs text-purple-700 dark:text-brand uppercase font-bold tracking-wider">
+            <span className="font-mono text-xs text-copper-ink uppercase font-bold tracking-wider">
               How I work
             </span>
             <h2 className="text-3xl sm:text-4xl font-display font-extrabold uppercase tracking-tight mt-1">
               Studio{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-accent dark:from-brand dark:to-neon-pink">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-copper dark:from-brand dark:to-copper">
                 standards
               </span>
             </h2>
@@ -192,12 +192,16 @@ export default function About() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {stats.map((s) => (
+          {stats.map((s, idx) => (
             <div
               key={s.label}
               className="glass p-6 rounded-2xl border border-line text-center shadow-sm dark:shadow-none"
             >
-              <div className="text-3xl font-extrabold font-display text-purple-600 dark:text-brand">
+              <div
+                className={`text-3xl font-extrabold font-display ${
+                  idx % 2 === 1 ? 'text-copper' : 'text-purple-600 dark:text-brand'
+                }`}
+              >
                 {s.value}
               </div>
               <p className="text-xs text-muted uppercase tracking-wider mt-1">{s.label}</p>
